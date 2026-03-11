@@ -1,3 +1,0 @@
-"0","draws_12H2 |> "
-"0","  summarize(mean_gt = mean(mean_gt), "
-"0","            sd_gt = mean(sd_gt)) "

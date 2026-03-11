@@ -1,8 +1,0 @@
-"0","# Calculate rmse"
-"0","rmse <- runs |> mutate(rmse = sqrt(mean(reg_adj - estimate)^2))"
-"0","rmse <- mean(rmse$rmse)"
-"0","rmse"
-"1","[1]"
-"1"," 0.006095916"
-"1","
-"

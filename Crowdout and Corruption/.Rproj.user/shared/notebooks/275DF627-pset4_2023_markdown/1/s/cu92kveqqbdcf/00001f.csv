@@ -1,2 +1,0 @@
-"0","library(rdd)"
-"0","mccrary <- DCdensity(runvar = rdd$demmvlag, cutpoint = 0)"

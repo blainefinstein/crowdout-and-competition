@@ -1,0 +1,170 @@
+---
+title: "Crowd-Out and Competition: How Non-Governmental Development Programs Shape Public Spending"
+author: "Blaine Finstein"
+institute: "University of California, Los Angeles"
+date: "2025-12-4"
+format:
+  beamer:
+    theme: "default"
+    colortheme: "dolphin"
+    fonttheme: "professionalfonts"
+    aspectratio: 169
+    slide-level: 2
+    pdf-engine: xelatex
+    toc: false
+    incremental: false
+    fig-align: center
+    fig-pos: H
+    fig-width: 8
+    fig-height: 4.5
+---
+
+## Motivation
+- NGOs finance billions in public services annually
+- When NGOs deliver public services, **do politicians reallocate?**
+- Classic concern: **crowd-out** — aid substitutes for local spending  
+- However, evidence is mixed. Political incentives may explain why
+
+**Central Question:**  
+> Do NGOs provide perverse incentives to politicians to scale back public financing, and do electoral incentives constrain this behavior?
+
+
+## Democratic Institutions Matter
+- In weakly competitive contexts:
+  - Politicians redirect funds freed up by aid toward patronage or rents  
+- In competitive settings:
+  - Voters monitor and punish neglect → maintain or increase spending  
+- **Electoral incentives transform the fiscal effect of aid**
+
+## Hypotheses
+(1) Non-governmental development programs crowd out public spending  
+(2) Political competition mitigates crowd-out
+(3) Crowd-out attenuates welfare returns from NGO programs
+
+# Empirical Context
+
+## The Kalahi-CIDSS Program
+- World Bank–funded community-based development program in the Philippines.  
+- Grants given for small-scale projects from 2013-2015. 
+- **Randomized across municipalities** → causal identification.
+
+\includegraphics[width=0.8\linewidth]{map.png}
+
+
+## Empirical Strategy
+
+$$
+Y_{irt} = \tau D_i + 
+\beta_2 (\text{Competition}_i) + 
+\beta_3 (D_i \times \text{Competition}_i)
++ X_{irt} + \epsilon_{rt}
+$$
+
+- $Y_{irt}$: per-capita municipal public service spending  
+- $\text{Competition}_i$: mayoral margin of victory  
+- Region and time fixed effects
+- Randomized treatment facilitates causal inference on main effect (crowd-out), although conditional effect (political
+  competition) is not randomized
+
+# Results
+
+## Descriptive Trends
+\includegraphics[width=0.9\linewidth]{historic_dat.png}
+
+**Observation:** Treated municipalities reduce spending after program rollout.
+
+
+## Main Finding: NGO Programs Crowd Out Spending
+- Kalahi **reduced local per-capita spending** in overlapping sectors  
+- No offsetting increases elsewhere
+
+**Interpretation:**  
+Even when aid bypasses state budgets, politicians substitute funds
+
+
+## Conditional Effect
+
+\includegraphics[width=\linewidth,height=3.2in,keepaspectratio]{moderation_descriptive.png}
+
+## Interpretation
+- Significant crowd-out under weak competition  
+- Spending sustained under electoral pressure
+
+
+# Welfare Implications
+
+## Shock to Financing from National Government
+
+- Internal Revenue Allotment (IRA) constitutes approximately 80% of municipal revenue
+- In 2013, delayed IRA transfers created **exogenous local fiscal shocks**
+   - Department of Budget and Management routed funds through local offices rather than direct disbursement. Commission    on Audit of the Philippines cannot account for nearly half of the IRA from that year
+- This shock constrains spending while Kalahi was disbursed in full  
+- Comparing treated vs. control municipalities **before and after** the shock helps to isolate how fiscal substitution    affects welfare outcomes (time still an issue)
+  
+
+## Identification Strategy: IRA Shock and Welfare Outcomes
+```{r, fig.width=8, fig.height=4.2, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+# Construct stylized data for 2013–2015
+ira_df <- data.frame(
+  year = rep(c(2013, 2014, 2015), 2),
+  welfare_control = c(0, .5, 1.75),
+  welfare_treated = c(0, 1.5, 3.25)
+)
+
+# Reshape to long format for ggplot
+ira_df_long <- data.frame(
+  year = rep(ira_df$year, 2),
+  welfare = c(ira_df$welfare_control, ira_df$welfare_treated),
+  group = rep(c("Control", "Treated"), each = nrow(ira_df))
+)
+
+# Base plot
+ggplot(ira_df_long, aes(x = year, y = welfare, color = group, group = group)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  geom_vline(xintercept = 2014, linetype = "dashed", color = "gray40", size = 0.8) +
+  annotate("text", x = 2013.3, y = 4.6, label = "IRA delay", size = 4, fontface = "italic") +
+  annotate("text", x = 2014.7, y = 4.6, label = "Full IRA", size = 4, fontface = "italic") +
+  scale_color_manual(values = c("Treated" = "#d7191c", "Control" = "#2c7bb6")) +
+  scale_x_continuous(breaks = c(2013, 2014, 2015), limits = c(2013, 2015)) +
+  labs(
+    x = "Year",
+    y = "Welfare",
+    subtitle = "Treated municipalities experience smaller welfare gains under full IRA (due to crowd-out)",
+    caption = "Note: stylized figure using dummy data",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "bottom",
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(face = "bold")
+  )
+```
+
+
+## Fiscal Substitution Reduces Welfare Gains
+- Kalahi improved welfare, but benefits shrink under full budgetary control
+   - DiD results show 35% reduction in welfare treatment effect
+- Results consistent with fiscal substitution undemrining program effectiveness, but suggestive
+
+**Questions:**  
+> Are these results compelling?  
+> Should I consider other other avenues to explore impact of crowd-out on welfare?
+
+
+## Thank You!
+**Questions & Discussion**
+
+Blaine Finstein
+\newline
+University of California, Los Angeles  
+blainefinstein@ucla.edu
+
+
+
+

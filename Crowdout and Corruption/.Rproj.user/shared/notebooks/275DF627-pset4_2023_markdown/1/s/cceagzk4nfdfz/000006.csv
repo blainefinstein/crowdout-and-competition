@@ -1,4 +1,0 @@
-"0","rdplot(y = rdd$demvotesh, x = rdd$demmvlag, p = 1)
-rdplot(y = rdd$demvotesh, x = rdd$demmvlag, p = 2)
-"
-"0","rdplot(y = rdd$demvotesh, x = rdd$demmvlag, p = 3)"

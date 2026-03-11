@@ -1,4 +1,0 @@
-"0",""
-"0","# Load data"
-"0","barometer <- read_sav(""data/raw/SAF_R9.data_.final_.wtd_release.30May23.sav"")"
-"0",""

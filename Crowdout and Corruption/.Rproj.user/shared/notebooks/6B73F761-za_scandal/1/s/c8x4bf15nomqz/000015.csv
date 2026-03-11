@@ -1,4 +1,0 @@
-"0",""
-"0","# Urban/rural breakdown by treatment and control"
-"0","barometer |>"
-"0","  summarize(n = n(), .by = c(rural, post_scandal))"

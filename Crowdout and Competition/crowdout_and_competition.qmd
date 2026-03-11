@@ -1,0 +1,1538 @@
+---
+title: "Crowd-out and Competition: How non-governmental development programs shape public spending"
+author: "Blaine Finstein"
+format:
+   pdf:
+      documentclass: article
+execute:
+  echo: false
+  warning: false
+  message: false
+editor: source
+latex_engine: xelatex
+bibliography: crowdout.bib
+link-citations: true
+---
+
+# Abstract
+
+A large literature shows that grants substitute for local revenue in some contexts but not others, yet empirical evidence remains inconsistent and causal channels poorly identified. I argue that non-governmental development programs also crowd out public spending, but that democratic incentives shape government response. I exploit a randomized evaluation of a World Bank community development program from the Philippines to evaluate these claims. I find that the program reduced public service provision in the same domains, but that this effect is concentrated in low-competition municipalities where incumbents were insulated from electoral pressure. In competitive settings, mayors maintained spending levels and allocated procurement programmatically. In uncompetitive ones, freed resources financed targeted contracts and patronage employment. Suggestive evidence leveraging a shock to municipal budgets during program evaluation indicates that crowd-out attenuated infrastructure welfare returns. These results clarify a long-standing empirical puzzle and document a significant but unexplored channel in the relationship between aid and political institutions. Aid shapes public spending, but democratic incentives determine whether this complements or corrodes the state.
+
+\clearpage
+
+# 1 Introduction
+
+Foreign aid constitutes one of the most significant external forces shaping governance and welfare in the developing world. Each year, international donors and non-governmental organizations (NGOs) finance billions of dollars in projects designed to reduce poverty and improve human welfare. These interventions can yield substantial welfare gains. Yet, they also alter the incentives of governments that operate in the same service domains. When external actors assume responsibility for providing public goods, politicians may reduce spending or redirect resources elsewhere. As a result, programs that appear successful may inadvertently blunt their own long-term impact or weaken state capacity.
+
+A large literature has extensively documented that intergovernmental grants and official development assistance can crowd out public spending (@feyzioglu1998; @chatterjee2012). However, this research has overwhelmingly focused on funds delivered \textit{to} governments. Far less is known about whether non-governmental development programs can produce similar substitution effects. In practice, these programs frequently overlap with local government mandates, offering services that public institutions might otherwise provide. If governments respond by cutting budgets or reallocating resources, even well-designed programs may yield attenuated welfare gains. Furthermore, empirical studies of crowd-out reach divergent conclusions. Some find strong crowd-out, while others find “flypaper effects” where aid appears to stick.
+
+I examine how non-governmental development assistance shapes local public spending and show that democratic institutions condition crowd-out effects. I study these dynamics in the context of a randomized evaluation of Kapit-Bisig Laban sa Kahirapan–Comprehensive and Integrated Delivery of Social Services (Kalahi-CIDSS), a World Bank–financed community-driven development program in the Philippines. Kalahi-CIDSS disbursed grants to community committees for small-scale development projects, operating in parallel with local governments responsible for similar public goods. Importantly, the program was randomly assigned across municipalities, enabling causal inference on governance outcomes.
+
+I advance three central findings. First, I show that non-governmental development programs can crowd out local public spending. Using granular panel data on quarterly municipal budgets, I estimate treatment effects of Kalahi-CIDSS on public financing. The results indicate that Kalahi-CIDSS significantly reduced local government expenditures in overlapping service sectors with no compensating increases in other spending categories. This finding broadens the scope of aid fungibility theory: crowd-out can occur even when financing bypasses government budgets.
+
+Second, I demonstrate that electoral competition, the core institutional mechanism of democratic accountability, explains why crowd-out occurs in some contexts but not others. In competitive municipalities, incumbents must maintain service provision to retain voter support, mitigating the incentive to shirk when external assistance arrives. In contrast, politicians in less competitive environments can scale back spending without electoral cost. Using municipal election returns, I show that crowd-out effects are concentrated in low-competition settings, while competitive municipalities maintain spending. This mechanism helps reconcile a long-standing empirical puzzle.
+
+Third, I show that crowd-out is not passive fiscal contraction but active reallocation toward clientelist ends. Using municipal procurement records linked to barangay-level electoral returns, I demonstrate that treated mayors in low-competition municipalities directed public contracts toward their most supportive villages, while competitive treated mayors allocated procurement programmatically. The same competition gradient that disciplines crowd-out also disciplines how freed resources are spent. Individual-level data from the Philippine Labor Force Survey corroborate this pattern: treated municipalities exhibit significantly higher rates of casual government employment, consistent with patronage payroll expansion. Together, these results show that Kalahi-CIDSS did not merely reduce public provision — it reshaped the distributional logic of local governance in ways that deepened clientelism where accountability was already weakest.
+
+Finally, I offer suggestive evidence on the welfare consequences of crowd-out. Exploiting a natural fiscal shock that temporarily constrained municipal budgets during program implementation, I examine how reductions in public spending affect the program’s human development outcomes. A difference-in-differences analysis of household and community welfare indicators shows that while Kalahi-CIDSS improved welfare, these effects were significantly smaller when local governments retained full budgetary control. This pattern suggests that crowd-out attenuated the welfare benefits of development assistance.
+
+Furthermore, few studies on aid fungibility offer RCT-based evidence. Grants are rarely randomly allocated and most empirical evidence of crowd-out is derived from quasi-experimental and descriptive methods. Given that aid agencies target their programs to underdeveloped and low-resourced regions which likely spend differently, research designs with credible causal identification are crucial. These results are therefore a significant contribution to the literature.
+
+Together, these findings reveal that democratic institutions determine the fiscal and developmental consequences of aid. In politically competitive settings, aid complements public provision; in less competitive ones, it substitutes for it. The results bridge two debates on the fungibility of aid and on the fiscal consequences of democratic accountability, demonstrating that the effectiveness of development programs depends on political institutions as well as program design. Where accountability is strong, external assistance can reinforce governance. Where it is weak, it can erode it.
+
+The paper proceeds as follows. Section 2 develops a theoretical framework linking non-governmental development assistance, fiscal substitution, political accountability, and clientelist reallocation. Section 3 describes the Kalahi-CIDSS program and details the empirical strategy. Section 4 reports the main results on municipal spending, demonstrating that Kalahi-CIDSS reduced public investment in social services and that this effect was mitigated in competitive municipalities. Section 5 traces the political destination of freed resources using procurement records and labor market data, showing that crowd-out financed targeted transfers in low-accountability settings. Section 6 links these fiscal dynamics to welfare outcomes using household survey data from the impact evaluation, suggesting that crowd-out attenuated infrastructure-related welfare gains. Section 7 concludes.
+
+# 2 Theory
+
+Throughout the developing world, public institutions and aid agencies offer similar services to a limited population of overlapping beneficiaries. Villages receive water purification or electrification projects installed by an NGO while those in other parts of the country enjoy clean drinking water and electricity provided by a government utilities system. Children are inoculated in UNICEF vaccination drives while enrolled in a government health insurance scheme. Households benefit from cash transfers, literacy campaigns, or health interventions financed by donors, while governments fund similar initiatives through local budgets. These parallel structures of service delivery create a shared domain of welfare provision in which aid and the state coexist and potentially compete.
+
+Non-governmental development assistance can thus alter the incentives of both citizens and politicians. For citizens, direct non-governmental provision reduces dependence on public services and weakens the electoral sanction for underperforming incumbents. For politicians, aid offers an opportunity to reallocate limited fiscal resources elsewhere, either toward politically salient but less productive spending, or to private rents. In the absence of electoral pressure, incumbents may rationally reduce public investment in sectors served by aid agencies. The result is crowd-out: aid replaces rather than complements government spending. However, when voters reward visible local investment and competition is intense, politicians may maintain or even increase spending to claim credit for improved welfare outcomes, producing a crowd-in effect.
+
+## Fiscal substitution and the logic of crowd-out
+
+When external resources are provided for specific purposes, recipient governments internalize them as additional income, relaxing local budget constraints. Classic models of fiscal federalism predict that such grants displace rather than augment domestic spending (@oates1972; @zampelli1986). Politicians and bureaucrats seek to maximize discretionary resources. When aid covers one category of spending, locally raised revenues can be redirected toward others, often those yielding greater political returns.
+
+Aid has been been shown to substitute for public spending across countries. Cross-national analyses estimate that up to 70 percent of official development assistance is fungible (@chatterjee2012), while studies of tax effort find that aid inflows weaken domestic revenue mobilization, particularly in low-capacity states (@benedek2014). These patterns mirror those observed in intergovernmental transfers, where grants to subnational governments frequently displace local spending rather than augment it.
+
+Yet, evidence of crowd-in, where aid or grants increase total public spending, muddies the picture. The “flypaper effect” literature demonstrates that fiscal transfers often “stick where they hit”. Local governments spend more following external grants than they would following equivalent increases in local income (@hines1995). Studies from contexts as diverse as Sweden (@dahlberg2008), Tanzania (@masaki2018), and the Philippines (@troland2016) document such complementarities.
+
+## Political competition and the incentive to shirk
+
+Why does aid substitute for public spending in some contexts but complement it in others? I argue that political incentives structure government responses to external resources. Politicians operate within electoral environments that determine the costs and benefits of fiscal adjustment, and these incentives shape whether they exploit or resist the opportunity to substitute development assistance for public spending. In settings of limited competition, incumbents face weak electoral constraints and can reduce visible service provision without meaningful political cost. Aid effectively frees funds that can be redirected toward discretionary spending. Conversely, in competitive constituencies, incumbents must sustain observable public investment to retain voter support.
+
+Electoral cycles shape public spending in predictable ways. The political business cycle literature shows that incumbents use expansionary fiscal policies before elections to reduce unemployment, stimulate growth, and improve their chances of reelection (@nordhaus1975; @rogoff1988). These dynamics are especially pronounced in developing democracies where institutional constraints are weaker and voters rely on short-term economic performance as a proxy for competence (@brender2005; @shi2006). In the Philippines, for instance, local governments exhibit increased spending prior to elections, particularly in politically salient sectors such as infrastructure and social services (@labonne2016).
+
+Yet electoral pressure does more than influence timing. It shapes the composition of spending as well. Political competition increases the incentive to deliver public goods. Governments in competitive environments spend more on basic services and are less likely to divert funds to patronage or private consumption. Comparative evidence supports this logic: @harding2014 finds that countries with greater competition allocate more resources to education, @Burgess2015 show that Kenyan road investments exhibit less ethnic favoritism under democracy, and @ferraz2011 demonstrate that competition reduces corruption and increases local public goods in Brazil.
+
+However, non-governmental aid complicates this equilibrium. When NGOs or aid agencies provide visible public goods, politicians may exploit these projects for electoral advantage. Evidence from the Philippines shows that politicians claim credit for projects implemented by aid agencies and that voters often fail to distinguish between governmental and non-governmental programs (@cruz2017). This ability to appropriate credit changes the strategic calculus of incumbents. In low-competition or information-poor settings, politicians can maintain electoral support even if they reduce local spending, because non-governmental projects create the appearance of productivity.
+
+The ability of politicians to appropriate credit for external projects and reduce public expenditure is thus conditional on the political environment. In competitive constituencies, opposition candidates, journalists, and civic actors have strong incentives to monitor and publicize government behavior, increasing voters’ awareness of who is actually responsible for public goods. These environments tend to be more information-rich: elections are closely contested, media coverage is broader, and voters are more attentive to performance. In such settings, incumbents cannot rely solely on symbolic association with externally funded projects. To credibly claim credit and ensure that constituents attribute welfare improvements to their administration, they must demonstrate visible co-investment or complementary provision. By contrast, in low-competition environments, where challengers are weak, media oversight is limited, and voters rely on symbolic cues, incumbents can plausibly claim ownership of externally funded projects while simultaneously cutting their own spending. Political competition and electoral incentives thus determine whether aid amplifies or undermines accountability, producing fiscal crowd-in under electoral constraint and crowd-out where such constraint is absent.
+
+This framework reconciles seemingly contradictory findings. Economic models of substitution predict that aid will crowd out public spending, yet empirical studies frequently identify cases of fiscal complementarity. The theory proposed here suggests that both outcomes are possible and depend on democratic institutions. Where competition is weak, aid enables fiscal substitution. Where competition is strong, it crowds in spending by raising the electoral cost of inaction.
+
+## The political destination of freed resources
+
+Fiscal substitution is not an end in itself. Politicians who reduce programmatic expenditure must allocate the freed resources somewhere, and the literature on distributive politics offers clear predictions about where. The canonical model of electoral redistribution holds that incumbents allocate public resources to maximize the probability of reelection, targeting transfers toward constituencies where the marginal return to spending is highest (@lindbeck1987). In low-accountability environments, this logic favors clientelism over programmatic provision. Where voters cannot easily monitor government performance or credibly commit to conditional electoral support, targeted transfers are a more reliable instrument of mobilization than public goods, which are non-excludable and therefore difficult to leverage for political reward (@keefer2007; @robinson2013). The incumbent who builds a road that everyone uses cannot easily condition its delivery on electoral loyalty; the incumbent who directs contracts and employment toward specific communities can.
+
+This prediction has accumulated substantial empirical support across political contexts. Competition increases the incentive to deliver broad public goods by raising the electoral cost of targeting: in closely contested environments, the marginal voter is more likely to be a swing constituent responsive to programmatic appeals than a core supporter whose loyalty can be purchased more cheaply (@persson2002; @harding2014). Where competition is weak and incumbents face limited threat of replacement, the calculus reverses. Discretionary resources flow toward the networks of brokers, supporters, and dependent constituencies that sustain political dominance rather than toward welfare-maximizing public provision (@robinson2013; @ferraz2011; @golden2008). The substitution logic advanced here therefore generates a prediction that extends beyond the level of public spending. When external assistance frees fiscal resources in low-competition settings, those resources should not simply disappear from the budget — they should migrate toward the distributive instruments that incumbents in such environments prefer. The geographic distribution of public contracts is one such instrument. Employment on public payrolls is another. Both allow incumbents to target benefits to specific communities and individuals in ways that generate politically exploitable gratitude and broker loyalty, and both are well-documented channels of patronage in developing democracies (@mccoy2009; @colonnelli2020). Competition should moderate this reallocation in the same direction as it moderates crowd-out: incumbents facing genuine electoral pressure have stronger incentives to allocate resources programmatically and weaker incentives to deploy freed fiscal space for targeted distribution.
+
+This logic yields two testable implications. Non-governmental development assistance shapes public resource allocation, potentially reducing it in the same domains. Furthermore, aid will reduce public spending in low-competition municipalities but have weaker or even positive effects in competitive ones. The empirical analysis that follows tests these claims using data from a randomized evaluation of the Kalahi-CIDSS community-driven development program in the Philippines, examining how variation in electoral pressure moderates the consequences of aid for public spending.
+
+# 3 Data and Empirical Strategy
+
+Established in 2003, Kalahi-CIDSS aims to reduce poverty and increase local participatory governance in the Philippines. Kalahi-CIDSS delivers grants to qualifying municipalities for small-scale community development projects, such as farm-to-market roads, health stations, and irrigation and drainage systems.[^1] Communities determine how to allocate funds democratically in order to meet their particular needs. In addition to financing local development projects, Kalahi-CIDSS trains community members in choosing, designing, and implementing projects.
+
+[^1]: Municipal poverty rate is the predominant qualification for Kalahi-CIDSS. In the Philippines, municipalities are rated on a class scale of 1 (wealthiest) to 6 (poorest). In order to receive Kalahi-CIDSS, 4th -- 6th class municipalities must have a poverty incidence above the national average of 26.5%, based on the 2009 Small Area Estimates (SAE) of the National Statistical Coordination Board (NSCB). 1st -- 3rd class municipalities qualify if they have a poverty incidence of 40% or higher (@dswd2024).
+
+Unlike intergovernmental transfer programs in which funds flow through municipal accounts, Kalahi-CIDSS delivered block grants directly to community committees at the barangay level. Municipal governments were neither financial intermediaries nor implementing agents. Facilitators from the Department of Social Welfare and Development (DSWD) supported communities in project selection and design, but disbursement bypassed the municipal budget entirely. This structure is common to community-driven development programs globally.
+
+From 2011-2015, Innovations for Poverty Action (IPA) conducted an impact evaluation of Kalahi-CIDSS aiming to evaluate the effects of the program on key socioeconomic and governance outcomes via a randomized controlled trial (RCT). The impact evaluation spanned 198 municipalities across all three of the main island groups of the Philippines (Luzon, the Visayas, and Mindanao). Treatment was assigned via a series of public lotteries conducted within provinces, with municipalities matched into pairs immediately prior to each lottery on four pre-treatment characteristics: poverty incidence, population, land area, and number of barangays. Within each matched pair, one municipality was randomly assigned to treatment and one to control, yielding 99 treatment-control pairs across 26 provinces (@beatty2018). All specifications exploit this structure directly, using matched pair fixed effects to absorb time-invariant within-pair heterogeneity consistent with the randomization design. While the exact timing of grant allocation varied, municipalities selected for treatment received one grant per year from 2012-2015. These were calculated per municipality on the basis of its number of barangays, the smallest administrative unit in the Philippines and the level at which citizen committees were organized. While all barangays in a participating municipality were eligible to receive Kalahi-CIDSS, funds were allotted in accordance with project priorities.[^2] Figure 1 displays a map of the location of treated and control municipalities across the Philippines.
+
+[^2]: For a detailed review of selection criteria for the IPA impact evaluation, see @beatty2018. More information on project priorities and funds allocation within a given municipality can be found on the website of the Department of Social Welfare and Development (DSWD) of the Philippines, the federal agency that administers Kalahi-CIDSS (@dswd2024).
+
+Kalahi-CIDSS was found to substantially improve welfare outcomes. Infrastructure projects reduced the time to key services and the cost to get farm products to market, water-related projects reduced the time and cost to obtain it, and education initiatives increased school enrollments (@beatty2018).
+
+In order to evaluate whether municipal governments exploited Kalahi-CIDSS to reduce public spending, I construct an original panel data set of quarterly budget allocation and electoral outcomes at the municipal level across the Philippines.[^3] I estimate intent-to-treat effects among the IPA impact evaluation sample for the years in which grants were given to all treated municipalities (2013 through 2015), retaining all 198 municipalities under their original assignment regardless of compliance status, consistent with the evaluation's own analytical approach (@beatty2018). The outcome for my key specifications is per capita public service spending in Philippine pesos, as impact evaluation data do not allow me to disentangle the specific projects implemented in a given municipality.
+
+[^3]: Data on local government spending are obtained from the Bureau of Local Government Finance of the Philippines. Data on the IPA impact evaluation of Kalahi-CIDSS are publicly available through the Millennium Challenge Corporation Evidence Platform of the ICPSR (@ipa2019). Grant allocation years and other qualitative information on implementation of the randomized controlled trial are derived from the third round impact evaluation report (@beatty2018). Data on municipalities included in the impact evaluation affected by Typhoon Yolanda are obtained from the Kalahi-CIDSS supplementary documentation from the Asian Development Bank (@asiandevelopmentbank). I merge these data with 2013 municipal election returns published by the Commission on Elections of the Philippines (COMELEC), which are the local election results immediately preceding the intervention. Four treatment municipalities did not receive Kalahi-CIDSS due to inability to raise counterpart funding or local governance conflict, and four control municipalities received Kalahi-CIDSS through an administrative allocation outside the experimental protocol. All eight are retained under original assignment for intent-to-treat estimation.
+
+On November 8, 2013, midway through program implementation, Typhoon Yolanda (international name Haiyan) struck the Philippines. One of the most powerful tropical cyclones ever recorded, Yolanda killed at least 6,300 Filipinos and is estimated to have cost the Philippine government nearly \$13 billion USD (@worldbank). Given the impact on public spending, I code a dichotomous variable for heavy damage from Yolanda, as determined by the Asian Development Bank (@asiandevelopmentbank). As the Philippine government continued recovery efforts for years after Yolanda, this variable takes the value of $1$ for high-impact municipalities for all quarters in my sample following the storm.
+
+A further consideration bearing on the analysis window concerns the KC-National CDD Program (KC-NCDDP), a nationwide scale-up of Kalahi-CIDSS formally launched in June 2014. By the time of the endline survey in 2015, 79 of 99 control municipalities had been enrolled in KC-NCDDP (@beatty2018). Because control municipalities receiving a program functionally identical to the treatment have their own fiscal incentive to substitute external provision for municipal spending, KC-NCDDP enrollment attenuates the treatment-control spending difference from mid-2014 onward, biasing crowd-out estimates toward zero. All main results should therefore be interpreted as conservative lower bounds on the true crowd-out effect. To confirm this, I re-estimate all primary specifications restricting the sample to 2013 through the first half of 2014, prior to KC-NCDDP's first disbursement in July 2014, and present results in the appendix. Estimates are stable or larger in the pre-contamination window, consistent with conservative bias in the full-period results.
+
+While the impact evaluation employed randomization, I investigate whether treated and control municipalities exhibit statistically distinguishable pre-treatment differences. I plot balance on pre-treatment public spending in Figure 2 and test balance on all pre-treatment covariates systematically via randomization inference. Results from randomization inference are provided in appendix Table A1.[^4]
+
+[^4]: Randomization inference was conducted by simulating 100 random assignments consistent with the procedure employed in the impact evaluation to compute randomization-based p-values for overall and individual covariate balance. Neither the overall p-value nor the p-values of any individual covariates are statistically significant at conventional levels ($p<.05$).
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Load packages
+library(tidyverse)
+library(modelsummary)
+library(randomForest)
+library(ggplot2)
+library(caret)
+library(pROC)
+library(gt)
+library(kableExtra)
+library(tidyr)
+library(readxl)
+library(estimatr)
+library(fixest)
+library(sf)
+library(haven)
+library(scales)
+library(ggthemes)
+
+# Build analysis-ready CSVs once, then load lightweight tables in the paper
+if (!file.exists("Data/derived/analysis_data.csv")) {
+  source("clean.R")
+}
+
+dat <- read_csv("Data/derived/analysis_data.csv", show_col_types = FALSE)
+historic_dat <- read_csv("Data/derived/historic_data.csv", show_col_types = FALSE) |>
+  mutate(
+    # Some yearly files store monetary columns in millions; normalize accidental year scaling.
+    year = if_else(year > 1e6, year / 1e6, year),
+    year = as.numeric(year),
+    historic_date = as.Date(sprintf("%d-01-01", as.integer(year)))
+  )
+
+time_id <- function(qstr){
+  q <- as.integer(stringr::str_match(qstr, "^Q([1-4])([0-9]{4})$")[,2])
+  y <- as.integer(stringr::str_match(qstr, "^Q([1-4])([0-9]{4})$")[,3])
+  y * 4 + q
+}
+
+canonical_mun <- function(x) {
+  y <- x |>
+    str_trim() |>
+    str_to_title()
+
+  case_when(
+    y == "Villa Viciosa" ~ "Villaviciosa",
+    y == "Catarman (Capital)" ~ "Catarman",
+    y == "General Macarthur" ~ "General MacArthur",
+    y == "Macarthur" ~ "MacArthur",
+    y == "Brooke'S Point" ~ "Brooke's Point",
+    y == "El Nido (Bacuit)" ~ "El Nido",
+    y == "Romblon (Capital)" ~ "Romblon",
+    y == "Lau-An" ~ "Lau An",
+    y == "Tobias Fornier (Dao)" ~ "Tobias Fornier",
+    y == "Ipil (Capital)" ~ "Ipil",
+    y == "R. T. Lim" ~ "Roseller Lim",
+    y == "Licuan-Baay" ~ "Baay Licuan",
+    y == "Licuan-Baay (Licuan)" ~ "Baay Licuan",
+    y == "Asuncion (Saug)" ~ "Asuncion",
+    y == "Lambayong (Mariano Marcos)" ~ "Lambayang",
+    y == "Santa Monica (Sapao)" ~ "Santa Monica",
+    y == "San Francisco (Anao-Aon)" ~ "San Francisco",
+    y == "Anini-Y" ~ "Anini Y",
+    str_detect(y, "Sofronio") ~ "Sofronio Espanola",
+    TRUE ~ y
+  )
+}
+
+dat <- dat |>
+  mutate(
+    yearq = quarter,
+    post = if_else(time_id(quarter) >= time_id("Q12013"), 1, 0),
+    social_sector_spending_percap =
+      (education_culture_sports_manpower_development +
+       health_nutrition_population_control +
+       housing_and_community_development +
+       social_services_and_social_welfare) / pop07nso,
+    intensity_php = program_intensity_usd * 41.03,
+    intensity_php_percap = program_intensity_usd_percap * 41.03
+  ) |>
+  arrange(lgu_id, time_id(quarter)) |>
+  group_by(lgu_id) |>
+  mutate(
+    l1_ira_pc = lag(internal_revenue_allotment / pop07nso),
+    l1_oper_income_pc = lag(total_current_operating_income / pop07nso),
+    l1_cash_balance_pc = lag(fund_cash_balance_end / pop07nso),
+    l1_debt_service_pc = lag((coalesce(total_debt_service_principal_cost, 0) +
+      coalesce(debt_service_interest_expense_other_charges, 0)) / pop07nso),
+    l1_local_sources_pc = lag(total_local_sources / pop07nso),
+    l1_external_sources_pc = lag(total_external_sources / pop07nso)
+  ) |>
+  ungroup()
+
+phl_munis <- st_read("Data/Municities/MuniCities.shp", quiet = TRUE) |>
+  rename(mun = NAME_2) |>
+  mutate(mun = canonical_mun(mun)) |>
+  group_by(mun) |>
+  filter(n() == 1) |>
+  ungroup()
+
+dat_sf <- dat |>
+  left_join(phl_munis, by = "mun") |>
+  st_as_sf()
+
+# Use a municipality-level map layer (one polygon per municipality) for fast plotting
+dat_map_sf <- dat |>
+  distinct(mun, treat) |>
+  left_join(phl_munis, by = "mun") |>
+  st_as_sf()
+```
+
+\clearpage
+
+```{r, echo = F, warning = F, message = F}
+# --- Plot full map with outlines ---
+ggplot() +
+  # Base layer: all municipality outlines
+  geom_sf(data = phl_munis, fill = "gray75", color = "white", size = 0.1) +
+  
+  # Overlay: evaluation sample
+  geom_sf(data = dat_map_sf, aes(fill = factor(treat)), color = "gray40", size = 0.2) +
+  
+  # Colors for treated/control
+  scale_fill_manual(
+    values = c("0" = "#2C7BB6", "1" = "#D7191C"),
+    labels = c("Control", "Treated")
+  ) +
+  
+  labs(
+    title = "Figure 1: Kalahi-CIDSS Evaluation Sample, Philippines",
+    fill = "Treatment"
+  ) +
+  
+  theme_void() +
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 11)
+  )
+```
+
+\vfill
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=8, fig.height=5, out.width='100%'}
+# Evaluate pre-treatment trends
+
+historic_trend <- historic_dat |>
+  mutate(year_num = as.numeric(year)) |>
+  filter(year_num >= 2007, year_num <= 2015) |>
+  group_by(treat, year_num) |>
+  summarise(mean_spend_pc = mean(total_spending / pop07nso, na.rm = TRUE), .groups = "drop") |>
+  mutate(historic_date = as.Date(sprintf("%d-01-01", as.integer(year_num))))
+
+trend_y_max <- historic_trend |>
+  summarise(y_max = max(mean_spend_pc, na.rm = TRUE)) |>
+  pull(y_max)
+
+historic_trend |>
+  mutate(
+    treat = factor(ifelse(treat == 1, "KALAHI municipalities", "Control municipalities"))
+  ) |>
+  ggplot(aes(x = historic_date, y = mean_spend_pc, color = treat, fill = treat)) +
+  geom_line(linewidth = 1.3) +
+  geom_vline(xintercept = as.Date("2011-01-01"), linetype = "dashed", color = "gray50", linewidth = 0.9) +
+  scale_color_manual(values = c("#2C7BB6", "#D7191C")) +
+  scale_fill_manual(values = c(alpha("#2C7BB6", 0.2), alpha("#D7191C", 0.2))) +
+  scale_y_continuous(labels = label_comma(), limits = c(NA, trend_y_max)) +
+  scale_x_date(
+    breaks = as.Date(sprintf("%d-01-01", 2007:2015)),
+    limits = as.Date(c("2007-01-01", "2015-12-31")),
+    date_labels = "%Y"
+  ) +
+  labs(
+    x = "Year", 
+    y = "Per capita spending (PhP)",
+    title = "Figure 2: Trends in municipal spending: KALAHI vs control municipalities",
+    subtitle = "Spending per capita, 2007–2015; dashed line indicates program rollout",
+    color = NULL,
+    fill = NULL
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(size = 10),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+```
+
+\clearpage
+
+# 4 Results
+
+I estimate the causal effect of Kalahi-CIDSS on public spending with the following equation:
+
+$$
+y_{it} = \tau D_{i} + X_{ipt} + \epsilon_{pt}
+$$
+
+where $y_{it}$ represents per capita spending in municipality $i$ at quarter $t$ and $D_i$ is an indicator for Kalahi-CIDSS treatment. The coefficient $\tau$ captures the intent-to-treat effect on municipal spending, while $X_{ipt}$ denotes a vector of unit-specific controls, including matched pair and time fixed effects. Standard errors are clustered at the matched-pair-by-quarter level. The remaining term accounts for error.
+
+Table 1 presents the effect of Kalahi-CIDSS on municipal public service spending. The program significantly reduced public service spending in recipient municipalities ($p<.001$). The magnitude of this effect is economically meaningful: quarterly per capita public service spending declined by about PhP 248 (roughly \$4). For the median municipal population[^5], this amounts to a reduction of about 28 million pesos yearly, or \$500,000. These results provide clear evidence that Kalahi-CIDSS induced local governments to cut back on their own public service provision.
+
+[^5]: The median municipal population in the Kalahi-CIDSS impact evaluation sample is 28,267.
+
+This reduction in public service spending was not offset by increases elsewhere in the municipal budget. The estimated effect of Kalahi-CIDSS on total per capita spending across all spending categories is only slightly smaller than the effect on public service expenditures. The near-identical treatment effects on Kalahi-specific and total expenditures are consistent with reallocation into opaque fiscal categories, including cash balances and inter-fund transfers, that standard expenditure measures do not capture, a pattern the procurement analysis in Section 5 resolves directly.
+
+A potential concern in program evaluation is that control municipalities bordering treated areas may indirectly benefit from spillovers, such as through interjurisdictional learning, shared infrastructure, or political signaling effects. To account for this, I re-estimate the baseline model including an indicator for control municipalities which border treated municipalities. This specification identifies the direct treatment effect while adjusting for potential indirect exposure to the program.
+
+The results indicate that municipalities that receive the grant spend significantly less from their own budgets in program-relevant categories, even after adjusting for spillovers. Control municipalities which border treatment municipalities show slightly higher spending levels, suggesting modest positive spillovers, possibly due to complementary investments or political imitation effects by neighboring local governments. The mild evidence of positive spillovers in adjacent municipalities further reinforces that the main effect reflects genuine fiscal substitution by treated localities rather than regional budget displacement.
+
+As a placebo test, I examine the Internal Revenue Allotment, the constitutionally mandated intergovernmental transfer that finances roughly 80 percent of municipal operating income and is determined by a fixed formula based on population, land area, and income class. Because IRA allocations are computed centrally and municipalities exercise no discretion over them, treatment should have no effect on IRA receipts. I estimate this placebo in levels rather than per capita, using log population as a covariate, because dividing by the 2007 NSO population figure, which differs from the census benchmark used in the IRA formula, induces ratio bias that conflates population mismeasurement with treatment effects. Consistent with the placebo prediction, the estimated treatment effect is small and statistically insignificant.
+
+As a mechanism test, I also consider a non-governmental development program in which no funds were disbursed. I employ data on Peace Corps Philippines volunteer assignments, which I find to have no significant association with public service spending.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Peace Corps mechanism test
+
+# Helper function to process dates from peace corps data
+convert_excel_mixed_date <- function(x) {
+  case_when(
+    is.na(x) ~ as.Date(NA),
+    
+    # Numeric Excel serials
+    suppressWarnings(!is.na(as.numeric(x))) ~ 
+      as.Date(as.numeric(x), origin = "1899-12-30"),
+    
+    # Character time stamps
+    TRUE ~ 
+      as.Date(ymd_hms(x, quiet = TRUE))
+  )
+}
+
+# Read in peace corps data and filter for volunteers who served during Kalahi IE
+pc <- read_excel("Data/peace_corps.xlsx", sheet = 2) |> 
+  mutate(
+    pc_EndDate = convert_excel_mixed_date(pc_EndDate)
+  ) |> 
+  mutate(
+    start_year = str_extract(pc_StartDate, "\\d{4}"),
+    end_year = str_extract(pc_EndDate, "\\d{4}")
+  ) |> 
+  filter(as.numeric(start_year) <= 2013, as.numeric(end_year) >= 2015)
+
+# Code binary var for municipalities with peace corps volunteers
+pc_dat <- dat |> 
+  mutate(pc = ifelse(mun %in% .env$pc$municity, 1, 0), .before = treat)
+
+# Main regressions
+base_kalahi <- feols(
+  kalahi_spending_percap ~ treat +
+    yolanda + dynasty_next_mayor + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat,
+  cluster = ~ province^quarter
+)
+
+base_total <- feols(
+  total_spending_percap ~ treat +
+    yolanda + dynasty_next_mayor + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat,
+  cluster = ~ province^quarter
+)
+
+natl_sources <- feols(
+  internal_revenue_allotment ~ treat +
+    yolanda + dynasty_next_mayor + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat,
+  cluster = ~ province^quarter
+)
+
+pc_kalahi <- feols(
+  kalahi_spending_percap ~ pc +
+    yolanda + dynasty_next_mayor + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = pc_dat,
+  cluster = ~ province^quarter
+)
+
+kalahi_spill <- feols(
+  kalahi_spending_percap ~ treat +
+    yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat,
+  cluster = ~ province^quarter
+)
+
+modelsummary(
+  list(
+    "Kalahi spending" = base_kalahi,
+    "Total spending" = base_total,
+    "IRA" = natl_sources,
+    "Peace Corps" = pc_kalahi,
+    "Spillovers" = kalahi_spill
+  ),
+  coef_map = c(
+    "treat" = "Kalahi",
+    "pc" = "Peace Corps"
+  ),
+  stars = TRUE,
+  title = "Non-governmental development programs crowd-out public spending",
+  output = "kableExtra"
+) |>
+  kable_classic(latex_options = "scale_down") |>
+  kable_styling(full_width = FALSE, position = "center") |>
+  footnote(
+    general = "Outcome is total spending per capita (PhP). All models include province and quarter fixed effects with standard errors clustered at the province-quarter level.",
+    threeparttable = TRUE,
+    escape = FALSE,
+    footnote_as_chunk = TRUE
+  )
+```
+
+## Political competition dampens crowd-out
+
+The preceding results reveal an average crowd-out effect, but theory predicts that the magnitude of this effect should vary across political environments. Specifically, if politicians in competitive districts face stronger incentives to maintain visible public service provision, then crowd-out should be less pronounced where electoral competition is high. Here I present evidence that political competition determines how politicians respond to development assistance.
+
+Figure 3 illustrates this moderating relationship descriptively by plotting public service spending against mayoral margin of victory by treatment assignment, with fitted LOESS regressions overlaid. Margin of victory pertains to the 2013 local elections, the contest immediately preceding the intervention. Treated municipalities show a marked decline in spending as margins of victory increase. That is, as elections become less competitive, politicians appear to roll back spending significantly in response to Kalahi-CIDSS.
+
+To test this rigorously, I estimate interaction models that include the treatment indicator and the mayoral margin of victory. Results are presented in Table 2. The coefficient on the interaction term is negative and statistically significant, indicating that Kalahi-CIDSS reduced public spending primarily in low-competition municipalities. In competitive jurisdictions, incumbents increased spending levels, consistent with the theoretical expectation that electoral pressure constrains fiscal substitution.
+
+These results are robust to alternative measures of competition. Results using binary indicators of political competition are included in the appendix in Table A2. The estimated interaction effects remain consistent in sign and significance. Across specifications, the findings suggest that where politicians face little threat of electoral turnover, Kalahi-CIDSS crowds out local government spending. Where they face close contests, grants do not.
+
+Given that political competition is not randomly assigned, I investigate additional plausible explanations for these findings to verify that results do not derive from political dynamics correlated with competition. In particular, I include a dummy indicator for political dynasties, a salient feature of Philippine politics known to hamper competition. Model (1) in Table 2 displays results with the same set of municipal-level controls as Table 1, while model (2) incorporates the full set of additional political controls. The magnitude and sign of parameter estimates remain similar.
+
+To further investigate the mechanisms through which political competition hampers crowd-out, I explore the fiscal behavior of term-limited mayors who lack reelection incentives. In the Philippines, mayors are constitutionally limited to three consecutive terms. Term-limited mayors in 2013, having already served two prior terms, could not seek reelection and thus faced weaker electoral accountability. If political competition disciplines incumbents primarily through reelection concerns, then the moderating effect of competition should disappear when incumbents are term-limited.
+
+To test this, I estimate a triple interaction model with Kalahi-CIDSS treatment, margin of victory, and an indicator for whether the mayor was term limited. The results are shown in model (3) and support the hypothesized mechanism. Among incumbents eligible for reelection, competition strongly constrains fiscal substitution. However, the triple interaction between treatment, vote margin, and term limits is positive and significant ($\beta = 8,724$, $p < 0.001$), demonstrating that this competition effect disappears when incumbents cannot run again. This pattern suggests that reelection incentives are the channel through which political competition disciplines fiscal behavior. When incumbents’ electoral futures are no longer at stake, competitive pressure ceases to moderate the fiscal response to aid.
+
+In addition, I examine the behavior of mayors from political dynasties, which enjoy entrenched power and insulation from electoral pressure. Dynastic politicians often possess durable networks of patronage, control over local party machinery, and name recognition, all of which should reduce the disciplining effect of competition. As such, I include a specification (model 4) with a triple interaction between treatment, margin of victory, and a dynasty indicator. Again, I derive a positive and significant parameter estimate ($\beta = 6,182$, $p < 0.001$), indicating that reelection incentives are the mechanism by which competition moderates crowd-out.
+
+The moderating role of electoral competition is robust to controls for long-run political structure. When historical measures of political competition from the 2010 and 2007 elections are included in the specification (models 5 and 6), the treatment–competition interaction remains large and precisely estimated. While historically competitive municipalities exhibit higher baseline spending, historical political structure does not condition the fiscal response to treatment, indicating that crowd-out is driven by contemporaneous electoral incentives rather than persistent political dominance.
+
+\hspace{40 mm}
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=9, fig.height=6, out.width='100%'}
+dat |>
+  filter(!is.na(competition_z), !is.na(kalahi_spending_percap)) |>
+  mutate(
+    treat_label = if_else(treat == 1, "KALAHI municipalities", "Control municipalities")
+  ) |>
+  ggplot(aes(x = competition_z, y = kalahi_spending_percap, color = treat_label)) +
+  geom_smooth(method = "loess", se = FALSE, span = 0.9, linewidth = 1.6) +
+  scale_color_manual(
+    values = c(
+      "Control municipalities" = "#2C7BB6",
+      "KALAHI municipalities" = "#D7191C"
+    )
+  ) +
+  labs(
+    x = "Political competition (z-score; higher = more competitive)",
+    y = "Per capita public service spending (PhP)",
+    title = "Figure 3: Smoothed spending curves by treatment status",
+    subtitle = "The treated-control spending difference narrows as political competition increases",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(size = 10),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# Fit models
+moderator <- feols(
+  kalahi_spending_percap ~ treat * competition_z +
+    yolanda + log(pop07nso) + pi + land + bgytot |
+    pairnum + quarter,
+  data = dat,
+  cluster = ~ pairnum^quarter
+)
+
+moderator_full_controls <- feols(
+  kalahi_spending_percap ~ treat * competition_z +
+    yolanda + log(pop07nso) + pi + land + bgytot + dynasty_next_mayor + vote_diff_2007 + vote_diff_2010 |
+    pairnum + quarter,
+  data = dat,
+  cluster = ~ pairnum^quarter
+)
+
+moderator_term_limited <- feols(
+  kalahi_spending_percap ~ treat * competition_z +
+    yolanda + log(pop07nso) + pi + land + bgytot |
+    pairnum + quarter,
+  data = dat |> filter(term_limited == 1),
+  cluster = ~ pairnum^quarter
+)
+
+moderator_reelect_eligible <- feols(
+  kalahi_spending_percap ~ treat * competition_z +
+    yolanda + log(pop07nso) + pi + land + bgytot |
+    pairnum + quarter,
+  data = dat |> filter(term_limited == 0),
+  cluster = ~ pairnum^quarter
+)
+
+# Present results
+modelsummary(list("Baseline" = moderator,
+                  "Full controls" = moderator_full_controls,
+                  "Term-limited" = moderator_term_limited,
+                  "Re-election eligible" = moderator_reelect_eligible),
+             stars = T,
+             title = "Competition dampens crowd-out",
+             coef_map = c(
+               "treat" = "treat",
+               "treat:competition_z" = "treat x competition"
+             ),
+             output = "kableExtra"
+             ) |> kable_classic(latex_options = "scale_down") |> 
+  kable_styling(full_width = FALSE, position = "center") |> 
+  footnote(general = "Spending measured per capita in Philippine pesos.
+  Models include region and quarter-level fixed effects.",
+  threeparttable = TRUE,
+  escape = FALSE, footnote_as_chunk = TRUE)
+```
+
+\clearpage
+
+# 5 Crowd-out reduces programmatic provision
+
+A central question in the political economy of aid is not simply whether external programs crowd out public spending, but where the freed resources go. The preceding results establish that Kalahi-CIDSS reduced per capita public service expenditures, and that this effect was concentrated in low-competition municipalities where incumbents faced limited electoral pressure to maintain visible provision. The aggregate spending results are consistent with two interpretations: resources were simply consumed as fiscal slack, or they were reallocated into channels that standard expenditure measures do not capture. Philippine local government accounts include a number of opaque fiscal categories, such as cash balance carried forward, lump-sum reserves, and inter-fund transfers, into which discretionary resources can migrate without appearing as measurable programmatic outlays. If freed resources flowed into these categories and from there into targeted political transfers, the aggregate spending pattern would look identical to simple fiscal contraction. The procurement record provides a direct test that the budget data alone cannot.
+
+A large literature in political economy argues that politicians in weakly competitive environments do not simply consume fiscal slack, they invest it strategically. The canonical form of this investment is clientelism: the targeted distribution of private or club goods to political supporters in exchange for electoral loyalty (@robinson2013; @keefer2007). In the Philippines, where broker networks and village-level electoral organization are central to political competition, the geographic distribution of local public spending is a primary instrument of this strategy (@hutchcroft2012; @cruz_aer_2017). Classic models of aid fungibility treat substitution as the end of the story: external financing relaxes budget constraints, and governments quietly reallocate the savings (@oates1972; @chatterjee2012). But if freed resources flow to discretionary procurement rather than across programmatic categories, the normative implications are unambiguous. Aid does not merely reduce public provision, it actively subsidizes the clientelist strategies of incumbents in low-accountability environments. The efficiency loss from crowd-out is then not a regrettable fiscal byproduct but a predictable political equilibrium.
+
+To characterize the broader fiscal reallocation induced by Kalahi-CIDSS and motivate the procurement test, I first examine which budget categories were most predictive of treatment assignment. I fit a random forest to classify treated and control municipalities using the full set of municipal budget line items as predictors. The algorithm learns which combinations of spending categories best discriminate between the two groups. To assess the contribution of each category, I compute the mean decrease in accuracy: the average reduction in classification performance that results from randomly permuting each predictor while holding all others fixed. A large mean decrease in accuracy indicates that the category carries substantial information about treatment status; a predictor that can be permuted without degrading model performance contributes little. Intuitively, this measure asks how much worse the model performs when the given information is withheld.
+
+This strategy builds upon an econometric literature using machine learning in political economy to illuminate complex, structural relationships within institutional data that are difficult to specify a priori (@athey2019; @mullainathan2017). Whereas traditional parametric models impose strong functional form assumptions and risk overlooking nonlinearities or interactions, the random forest framework flexibly captures such patterns, allowing me to test whether program exposure is embedded in latent fiscal configurations that would be difficult to identify otherwise.
+
+Table 3 reports these results across all budget categories. Treatment is most strongly encoded in housing and community development, consistent with Kalahi-CIDSS's core project portfolio and a useful validity check: the algorithm recovers the expected overlap between program activities and local government mandates. Discretionary categories, including other general income and other receipts, also rank among the highest predictors. These budget lines are less tightly regulated and offer substantial flexibility in disbursement (@yilmaz2013). Their association with treatment status suggests that Kalahi-CIDSS shifted resources toward the portions of the budget most amenable to political discretion, consistent with the interpretation that aggregate spending reductions partly reflect migration into these opaque categories rather than simple fiscal contraction. The procurement analysis below tests whether mayors deployed resources that flowed into this discretionary space for political ends. Tax revenue also ranks among the top predictors, which supports prior empirical work finding that fungible aid depresses local taxation by reducing politicians' need to raise revenue domestically (@pack1993).
+
+\clearpage
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, results = "hide"}
+set.seed(214)
+
+# Get list of budget categories for random forest
+rf_dat <- dat |> 
+  select(general_fund:fund_cash_balance_end, treat)
+
+# Fit model to predict treatment from budget
+full_forest <- randomForest(
+  as.factor(treat) ~ .,
+  data = rf_dat,
+  importance = TRUE
+)
+```
+
+```{r,echo = FALSE, message = FALSE, warning = FALSE}
+as.data.frame(importance(full_forest)) |> 
+  rownames_to_column(var = "var") |>
+  select(var, MeanDecreaseAccuracy) |> 
+  arrange(desc(MeanDecreaseAccuracy)) |> 
+  kable(format = "latex", booktabs = TRUE,
+        col.names = c("Category", "Mean Decrease Accuracy"),
+        caption = "Predictive importance of budget categories") |> 
+  kable_styling(latex_options = "scale_down")
+```
+
+\clearpage
+
+Philippine law requires local governments to publish procurement contracts, including project classification, contract value, and the village of implementation. I exploit this geographic granularity to test whether Kalahi-CIDSS treatment predicts systematic targeting of procurement toward politically supportive villages. The identifying assumption is that, absent treatment, procurement would be distributed across barangays in a manner uncorrelated with the incumbent's electoral margin at the village level. Under treatment, if mayors deploy freed resources through clientelist logic, contracts should flow disproportionately to villages where the incumbent performed well. The outcome is the incumbent's vote share at the village level.
+
+Province and year fixed effects absorb time-invariant provincial heterogeneity and common temporal shocks. Standard errors are clustered at the province-year level. The interaction term is the quantity of interest: if treated mayors target procurement to supportive barangays, the interaction between treatment and municipal-level competition should be positive, as mayors facing real electoral costs have both the motive and the freed resources to engage in geographic targeting.
+
+Results are presented in Table 4. The interaction between treatment and competition is negative and significant in the baseline specification ($\beta=-.049$, $p<0.001$), indicating that low-competition treated mayors directed procurement contracts toward barangays where the incumbent received greater electoral support, while competitive treated mayors allocated contracts more broadly across the barangay support distribution. This mirrors the competition gradient documented in the main spending results: the same unaccountable incumbents who cut public spending under Kalahi also deployed freed resources toward political supporters, while competitive mayors maintained both spending levels and programmatic allocation. Competition disciplines not only the decision to crowd out but the distributional logic of what is crowded out. The dynasty specification contributes nothing beyond the baseline and is omitted. Heterogeneity by contract type shows that the targeting effect is driven by goods procurement ($\beta=-.05$, $p<0.01$), rather than civil works, where the interaction is a precisely estimated null. Goods contracts are less subject to technical review, engineering approval, and community consultation requirements than civil works, making them a more practical instrument for targeted distribution within the timeframe of an electoral cycle. The civil works null likely reflects both the smaller sample — 1,656 observations against 6,776 in the baseline — and the greater procedural constraints that limit the speed and discretion with which such contracts can be directed.
+
+Geographic targeting alone does not preclude a benign interpretation. Goods contracts in electorally supportive barangays might, in principle, reflect correlated community need. I address this directly using individual-level data from the Philippine Labor Force Survey (LFS), which records employment status, sector, and contract type for a nationally representative sample. Contractual government employment — short-term appointments outside the civil service — is a well-documented channel of political patronage in the Philippines, allowing local executives to reward supporters and mobilize electoral loyalty through public payrolls that expand and contract with political cycles (@mccoy2009; @robinson2013; @colonnelli2020). If mayors are deploying freed resources efficiently in response to genuine community demand, there is no reason to expect systematic increases in casual public sector hiring. If they are converting fiscal slack into political capital, short-term government employment should rise in treated municipalities. To test this, I estimate a linear probability model predicting the probability that a respondent reports short-term government employment, controlling for respondent demographics and the same municipal characteristics employed in the main specifications, with province fixed effects and standard errors clustered at the province level. I do not include time fixed effects. Patronage appointments in the Philippine context are characteristically timed to electoral cycles, concentrating before elections and around periods of fiscal discretion (@mccoy2009; @labonne2016). Absorbing time variation would remove the strategic timing that is itself part of the mechanism. As shown in Table 6, individuals in treated municipalities exhibit a significantly higher probability of casual government employment ($\beta=.003$, $p<0.001$). The effect is modest in absolute terms but precisely estimated across 24,722 respondents. Payroll expansion of this kind is difficult to rationalize as efficient public investment.
+
+Taken together, the procurement and employment results triangulate on the same mechanism from independent data sources. Treated municipalities systematically directed goods contracts toward electorally supportive barangays in low-competition settings and simultaneously expanded casual government employment — two canonical instruments of political clientelism that are difficult to rationalize as efficient public provision. Critically, the procurement targeting pattern is moderated by competition in precisely the same direction as the main crowd-out result, suggesting that democratic accountability shapes not only the level of public spending but the distributional logic of how freed resources are deployed. This finding connects the fungibility literature to a growing body of work on how democratic institutions shape the composition, not just the level, of public spending (@persson2000; @keefer2007; @golden2008). The budget-level results in Section 4 establish a quantity effect. Procurement and employment data confirm that there is also a distributional distortion, and that distortion is politically structured: Kalahi-CIDSS did not merely reduce recorded public expenditure, it reshaped both the procurement geography and the composition of the public payroll in ways consistent with the conversion of fiscal slack into political capital.
+
+These results carry a broader implication that cuts against a common assumption in the development literature. Aid programs are frequently justified not only on welfare grounds but as investments in state capacity: interventions that, by demonstrating the value of public goods provision, might strengthen the programmatic relationship between citizens and the state. The results here suggest the opposite in precisely the settings where capacity-building is most needed. In low-competition municipalities, where mayors are entrenched, accountability is weak, and programmatic politics is already precarious, Kalahi-CIDSS did not complement the state. Instead, it afforded incumbents the fiscal cover and the resources to further erode it. Freed from the need to provide services in Kalahi-covered domains, and insulated from electoral punishment for doing so, these mayors expanded patronage payrolls and directed public contracts toward political supporters. Each of these responses makes the political environment harder to contest: patronage employment binds brokers and voters to the incumbent, targeted contracts build localized loyalty, and the atrophy of programmatic provision reduces citizens' expectations of the state as a neutral service provider.
+
+The long-run consequence is not a stronger local state but a more entrenched one — one in which the substitution of aid for public goods has compounded the institutional weaknesses that aid was intended to address. This is not a design failure of Kalahi-CIDSS specifically. It is a structural consequence of delivering development assistance through political environments where accountability is absent, and it suggests that the governance context of aid recipients deserves as much attention as the technical design of the programs themselves.
+
+\clearpage
+
+```{r}
+# Read in procurement data
+proc <- read_csv("Data/derived/procurement_analysis.csv", show_col_types = FALSE) |> 
+  mutate(log_brgy_votes = log(brgy_votes))
+
+
+# Baseline: treatment x competition
+target_base <- feols(
+  brgy_vote_share ~ treat * competition_z +
+    log_brgy_votes + pi + land + log(pop07nso) + yolanda |
+    pairnum + year,
+  data = proc,
+  cluster = ~pairnum^year
+)
+
+# Heterogeneity by contract type (civil works vs goods)
+target_civil <- feols(
+  brgy_vote_share ~ treat * competition_z +
+    log_brgy_votes + pi + land + log(pop07nso) + yolanda |
+    pairnum + year,
+  data = proc |> filter(classification == "Civil Works"),
+  cluster = ~pairnum^year
+)
+
+target_goods <- feols(
+  brgy_vote_share ~ treat * competition_z +
+    log_brgy_votes + pi + land + log(pop07nso) + yolanda |
+    pairnum + year,
+  data = proc |> filter(classification == "Goods"),
+  cluster = ~pairnum^year
+)
+
+# Present results
+modelsummary(list("Baseline" = target_base,
+                  "Civil works" = target_civil,
+                  "Goods" = target_goods),
+             stars = T,
+             coef_map = c(
+               "treat" = "treat",
+               "treat:competition_z" = "treat x competition"
+             ),
+             title = "Freed funds are targeted to political supporters",
+             output = "kableExtra"
+             ) |> kable_classic(latex_options = "hold_position") |> 
+  kable_styling(full_width = FALSE, position = "center") |> 
+  footnote(threeparttable = TRUE, escape = FALSE, footnote_as_chunk = TRUE)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# Read in LFS data
+lfs <- read_csv("Data/derived/lfs_data.csv", show_col_types = FALSE) |> 
+  mutate(gov_short_term = short_term * gov_sector)
+
+# Run model
+casual <- feols(
+  gov_short_term ~ treat + as.factor(female) + as.numeric(age) + 
+    pi + log(pop07nso) + land + bgytot |
+    pairnum,
+  cluster = ~ pairnum,
+  data = lfs
+)
+
+# Present results
+modelsummary(list("Short-term government employment" = casual),
+             stars = T,
+             coef_map = c(
+               "treat" = "treat"
+             ),
+             title = "Kalahi bloats the bureaucracy",
+             output = "kableExtra"
+             ) |> kable_classic(latex_options = "hold_position") |> 
+  kable_styling(full_width = FALSE, position = "center") |> 
+  footnote(general = "Population covariate scaled per 1,000 people such that significant digits are visible in the parameter estimate. Model includes region and quarter-fixed effects.", threeparttable = TRUE, escape = FALSE, footnote_as_chunk = TRUE)
+```
+
+# 6 Crowd-out harms human welfare
+
+While fungibility itself presents a concern for development policymakers who wish for aid to finance its intended programs, it does not always harm human development. Governments may allocate freed funds efficiently in order to address pressing domestic needs and optimize resources (@feyzioglu1996), and empirical evidence shows that aid fungibility does not necessarily reduce child mortality, particularly under strong democratic institutions (@pettersson2007). I exploit an exogenous shock to local public financing during the impact evaluation of Kalahi-CIDSS to evaluate whether crowd-out bore consequences for human welfare.
+
+The key source of identifying variation is a delay in the release of all national financing to local governments in the year 2013. The Internal Revenue Allotment (IRA) constitutes roughly 80 percent of the operating income of municipalities and was delayed by the Department of Budget and Management, which routed funds through their local offices rather than to municipalities directly, as required by law. The Commission on Audit of the Philippines declared the move unconstitutional and cannot account for nearly half of the IRA for that year. The scandal was widely reported in prominent domestic news outlets in the Philippines.
+
+As a result of the delay, municipalities experienced an exogenous liquidity shock at the same time that Kalahi-CIDSS community development grants were disbursed in full. This provides quasi-experimental variation in the fiscal environment during program implementation: all municipalities were exposed to the same exogenous national-level shock, but only treated municipalities simultaneously received Kalahi funds, creating an opportunity to identify whether crowd-out moderated the program’s welfare impact.
+
+To assess whether fiscal crowd-out attenuated the welfare effects of Kalahi-CIDSS, I estimate a difference-in-differences model using household-level data from the program’s impact evaluation. The estimation compares treated and control municipalities across the midline (2014) and endline (2015) surveys. The outcome is a standardized composite index of infrastructure access-related welfare outcomes scaled so that higher values indicate improved access. I construct the index by standardizing each outcome variable and taking the mean. I focus on infrastructure as this was the most common use of funds and the only welfare module common to both midline and endline surveys, allowing me to compare the same outcomes over time. I verify parallel pre-trends systematically using baseline survey data and present results in appendix Figure A5. I find balance on the infrastructure access index constructed identically, as well as an index incorporating all welfare outcomes included in the baseline survey.
+
+Formally, I estimate:
+
+$$
+welfare_{ipt} = \tau D_{i} + post_t + D_{i}*post_t + X_{ipt} + \alpha_{p} + \epsilon_{ipt}
+$$
+
+where $welfare_{irt}$ denotes the household's infrastructure access index, $D_i$ indicates assignment to Kalahi, and $post_t$ equals 1 in the endline period. $\alpha_{p}$ denotes matched pair fixed effects, which absorb all time-invariant differences between municipalities within the same experimental pair, exploiting the structure of the original randomization design. $X_r=pt$ includes a vector of unit level covariates, including matched pairs and time. The interaction term is the quantity of interest, capturing the difference in welfare improvements between treated and control municipalities between the midline and endline periods, during which treated municipalities had full budgetary discretion. Standard errors are clustered at the municipality level.
+
+Results, presented in Table 3, show that while Kalahi treatment is associated with large and significant welfare improvements at midline ($\beta=0.196$, $p<0.01$), the interaction term was negative and significant ($\beta=-0.155$, $p<.01$). This pattern indicates that welfare gains in treated municipalities were roughly 0.15 standard deviations smaller at endline in the absence of the fiscal shock, constituting a 79% reduction. The direction and magnitude of the estimate are consistent with the hypothesized crowd-out channel. Welfare gains from Kalahi appear limited when politicians had full control of their budgets and could therefore substitute the windfall for municipal effort more substantially.
+
+Substantively, these results imply that Kalahi-CIDSS’s overall positive effect on access to local infrastructure was partially offset by fiscal responses from local governments. The findings highlight the importance of considering the political context in evaluating development programs. External assistance can generate perverse incentives for local co-financing. The 2013 IRA delay provides a rare natural experiment that exposes these dynamics, showing that even well-designed, community-driven programs may yield muted welfare returns when they inadvertently reshape public resources.
+
+\clearpage
+
+```{r}
+# Plot baseline, midline, and endline welfare outcomes for treat and control as a visual comparison
+
+library(ggplot2)
+library(dplyr)
+library(readr)
+
+welfare_plot_dat <- read_csv("Data/derived/welfare_data.csv", show_col_types = FALSE) |>
+  filter(post_2013 %in% c(0, 1)) |>
+  filter(!is.na(infra_access), !is.na(treat))
+
+pred_data <- welfare_plot_dat |>
+  group_by(treat, post_2013) |>
+  summarise(
+    pred = mean(infra_access, na.rm = TRUE),
+    se = sd(infra_access, na.rm = TRUE) / sqrt(n()),
+    .groups = "drop"
+  ) |>
+  mutate(
+    ci_lower = pred - 1.96 * se,
+    ci_upper = pred + 1.96 * se,
+    treat_label = ifelse(treat == 1, "Treated", "Control"),
+    period_label = ifelse(post_2013 == 0, "Midline (IRA Delay)", "Endline (Full IRA)"),
+    period_label = factor(
+      period_label,
+      levels = c("Midline (IRA Delay)", "Endline (Full IRA)")
+    )
+  )
+
+ggplot(pred_data, aes(x = pred, y = treat_label, color = treat_label)) +
+  geom_vline(xintercept = 0, linetype = "dotted", color = "gray65") +
+  geom_errorbarh(aes(xmin = ci_lower, xmax = ci_upper), height = 0.12, linewidth = 0.9) +
+  geom_point(size = 3.2) +
+  facet_grid(rows = vars(period_label), switch = "y") +
+  scale_color_manual(values = c("Treated" = "#d7191c", "Control" = "#2c7bb6")) +
+  labs(
+    x = "Mean infrastructure access (SD units)",
+    y = NULL,
+    title = "Crowd-Out Attenuates Welfare Gains from Aid Programs",
+    subtitle = "Midline and endline shown in stacked panels; points are cell means with 95% CIs.",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "none",
+    panel.grid.minor = element_blank(),
+    strip.text.y.left = element_text(face = "bold", angle = 0),
+    strip.background = element_blank(),
+    strip.placement = "outside",
+    axis.title.x = element_text(face = "bold"),
+    plot.title = element_text(face = "bold", size = 15),
+    plot.subtitle = element_text(size = 11)
+  )
+```
+
+```{r, message = F, warning = F, echo = F}
+# Read in welfare data
+welfare_dat <- read_csv("Data/derived/welfare_data.csv", show_col_types = FALSE)
+
+# Welfare DiD model
+welfare_did <- feols(
+  infra_access ~ treat * post_2013 +
+    log(pop07nso) + pi + land + bgytot + dynasty_next_mayor + vote_diff |
+    pairnum,
+  cluster = ~mun_psgc,
+  data = welfare_dat
+)
+
+# Present results
+modelsummary(list("Infrastructure" = welfare_did),
+             coef_map = c(
+               "treat" = "treat",
+               "post_2013" = "post-2013",
+               "treat:post_2013" = "treat * post-2013"
+             ),
+             stars = T,
+             title = "Crowd-out attenuates impact of aid",
+             output = "kableExtra") |>
+  kable_classic(latex_options = "hold_position") |> 
+  kable_styling(full_width = FALSE, position = "center") |> 
+  footnote(general = "Infrastructure outcomes in standard units. Population covariate scaled per 1,000 people
+  such that significant digits are visible in the parameter estimate.", threeparttable = TRUE, escape = FALSE, footnote_as_chunk = TRUE)
+```
+
+\clearpage
+
+# 7 Conclusion
+
+The relationship between external assistance and state capacity remains a central puzzle in political economy. Classical theories of aid fungibility predict that grants displace local spending, yet empirical evidence is inconsistent. In this paper, I ask not only whether aid substitutes for public spending but what politicians do with the resources it frees, and under what institutional conditions these dynamics obtain. I advance the debate on three fronts: showing that substitution extends beyond intergovernmental transfers to non-governmental programs that bypass public accounts entirely; demonstrating that democratic competition determines whether crowd-out occurs at all; and tracing the political destination of freed resources through procurement and labor market data.
+
+Leveraging a randomized evaluation of the World Bank–financed Kalahi-CIDSS program in the Philippines, I provide causal evidence that non-governmental development assistance crowds out local public spending, that this effect is concentrated in low-competition municipalities where incumbents face limited electoral accountability, and that freed resources are not simply consumed as fiscal slack. In uncompetitive settings, treated mayors directed procurement contracts toward electorally supportive villages and expanded casual government employment, two canonical instruments of clientelism. In competitive municipalities, by contrast, mayors maintained spending levels and allocated contracts programmatically across villages. Democratic accountability shaped not only the level of public spending but the distributional logic of how freed resources were deployed.
+
+The welfare analysis offers suggestive evidence that these fiscal dynamics bore real consequences for human development. Exploiting an exogenous delay in national fiscal transfers during program implementation, I estimate that crowd-out attenuated the infrastructure welfare gains from Kalahi-CIDSS by approximately 79 percent. Aid generated substantial welfare improvements when local governments were fiscally constrained and could not substitute freely. Those gains contracted sharply when mayors retained full budgetary discretion. The program worked best, in other words, when politicians were least able to undermine it.
+
+These results carry clear implications for development policy. Bypassing government channels may insulate aid from direct capture, but it does not eliminate the political incentives of incumbents to exploit the fiscal space that external provision creates. Aid programs operating in low-accountability environments should anticipate substitution effects and design monitoring mechanisms that hold local governments accountable for maintaining co-investment in program-relevant domains. More broadly, the governance context of aid recipients deserves as much analytical attention as the technical design of the programs themselves. Where democratic institutions are weak, the effectiveness of development assistance depends not only on program quality but on whether the political environment permits its gains to survive.
+
+\clearpage
+
+# References
+
+::: {#refs}
+:::
+
+\clearpage
+
+# Appendix
+
+\setcounter{table}{0}
+\renewcommand{\thetable}{A\arabic{table}}
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{A\arabic{figure}}
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Pre-treatment balance via randomization inference
+
+suppressMessages({
+  library(DeclareDesign)
+  library(lmtest)
+  library(ri2)
+  library(nnet)
+})
+
+set.seed(214)
+
+balance_vars <- c("kalahi_spending", 
+                  "total_spending", 
+                  "kalahi_spending_percap", 
+                  "total_spending_percap",
+                  "pi", 
+                  "bgytot", 
+                  "pop07nso", 
+                  "land")
+
+balance_df <- historic_dat %>%
+  filter(year < 2011) |> 
+  select(pairnum, province, treat, all_of(balance_vars)) %>% 
+  na.omit
+
+declaration <- 
+  with(balance_df,{
+    declare_ra(
+      blocks = province,
+      clusters = pairnum,
+      conditions = 0:1
+    )
+  })
+
+# Robust regression function
+regression_fun <- function(data) {
+   lm_robust(as.formula(paste0(
+     "treat ~ as.factor(pairnum) + ",
+     paste0(balance_vars, collapse = "+"))),
+     clusters = province, data = data
+     )
+  }
+
+balance_fun <- function(data) {
+  data %>% regression_fun %>% glance %>% pull(statistic)
+  }
+
+ri2_out <-
+  conduct_ri(
+    test_function = balance_fun,
+    declaration = declaration,
+    assignment = "treat",
+    sharp_hypothesis = 0,
+    sims = 100,
+    data = balance_df
+    )
+
+ri2_summ <- summary(ri2_out) %>% rename_with(~paste0(., "_F_ri"))
+
+balance_results <- balance_df %>% 
+  regression_fun() %>% 
+  tidy %>% 
+  filter(term %in% balance_vars) %>% 
+  bind_cols(ri2_summ)
+
+# Present results
+historic_treat <- historic_dat |> filter(treat == 1 & year < 2011)
+historic_cont <- historic_dat |> filter(treat == 0 & year < 2011)
+
+data.frame(
+  var = c("public service spending", "total spending", "poverty index", "num barangay", "population",
+          "land area"),
+  mean_treat = c(mean(historic_treat$kalahi_spending / historic_treat$pop07nso),
+                 mean(historic_treat$total_spending / historic_treat$pop07nso),
+                 mean(historic_treat$pi), mean(historic_treat$bgytot),
+                 mean(historic_treat$pop07nso), mean(historic_treat$land)),
+  mean_cont = c(mean(historic_cont$kalahi_spending / historic_cont$pop07nso),
+                mean(historic_cont$total_spending / historic_cont$pop07nso),
+                mean(historic_cont$pi), mean(historic_cont$bgytot),
+                mean(historic_cont$pop07nso), mean(historic_cont$land)),
+  sd_treat = c(sd(historic_treat$kalahi_spending / historic_treat$pop07nso),
+               sd(historic_treat$total_spending / historic_treat$pop07nso),
+               sd(historic_treat$pi), sd(historic_treat$bgytot),
+               sd(historic_treat$pop07nso), sd(historic_treat$land)),
+  sd_cont = c(sd(historic_cont$kalahi_spending / historic_cont$pop07nso),
+              sd(historic_cont$total_spending / historic_cont$pop07nso),
+              sd(historic_cont$pi), sd(historic_cont$bgytot),
+              sd(historic_cont$pop07nso), sd(historic_cont$land)),
+  p = c(balance_results[1,5], balance_results[2,5], balance_results[3,5],
+        balance_results[4,5], balance_results[5,5], balance_results[6,5])
+) |>
+  kable(
+    format = "latex",
+    booktabs = TRUE,
+    digits = 4,
+    caption = "Pretreatment covariate balance"
+  ) |>
+  kable_styling(font_size = 8, position = "center", latex_options = "HOLD_position")
+```
+
+\clearpage
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Appendix Table A2: Main crowd-out robustness to outcome construction
+dat_robust <- dat |>
+  mutate(
+    asinh_kalahi_spending_pc = asinh(kalahi_spending_percap),
+    kalahi_spending_share = ifelse(total_spending_percap > 0, kalahi_spending_percap / total_spending_percap, NA_real_),
+    z_kalahi_spending_pc = as.numeric(scale(kalahi_spending_percap))
+  )
+
+outcome_main <- feols(
+  kalahi_spending_percap ~ treat + yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_robust,
+  cluster = ~ province^quarter
+)
+
+outcome_asinh <- feols(
+  asinh_kalahi_spending_pc ~ treat + yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_robust,
+  cluster = ~ province^quarter
+)
+
+outcome_share <- feols(
+  kalahi_spending_share ~ treat + yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_robust,
+  cluster = ~ province^quarter
+)
+
+outcome_z <- feols(
+  z_kalahi_spending_pc ~ treat + yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_robust,
+  cluster = ~ province^quarter
+)
+
+modelsummary(
+  list(
+    "Per-capita level" = outcome_main,
+    "asinh(per-capita)" = outcome_asinh,
+    "Per-capita share of total" = outcome_share,
+    "z-score per-capita" = outcome_z
+  ),
+  coef_map = c("treat" = "Kalahi treatment"),
+  stars = TRUE,
+  title = "Appendix Table A3: Crowd-out robustness to outcome construction",
+  output = "kableExtra"
+) |>
+  kable_classic(latex_options = "scale_down") |>
+  kable_styling(full_width = FALSE, position = "center") |>
+  footnote(
+    general = "Outcome construction varies by column. All models include province and quarter fixed effects with province-by-quarter clustered standard errors.",
+    threeparttable = TRUE,
+    escape = FALSE,
+    footnote_as_chunk = TRUE
+  )
+```
+
+\clearpage
+
+```{r}
+# Appendix Table A3: Crowd-out effect robust to restricting  sample restricted to pre-KC-NCCDP period
+
+#Restrict sample
+dat_preKCNCCDP <- dat |> filter(year < 2015)
+
+# Estimate models
+base_kalahi_preKCNCCDP <- feols(
+  kalahi_spending_percap ~ treat +
+    yolanda + dynasty_next_mayor + log(pop07nso) + pi + land + bgytot |
+    pairnum + quarter,
+  data = dat_preKCNCCDP,
+  cluster = ~ pairnum^quarter
+)
+
+base_total_preKCNCCDP <- feols(
+  total_spending_percap ~ treat +
+    yolanda + dynasty_next_mayor + log(pop07nso) + pi + land + bgytot |
+    pairnum + quarter,
+  data = dat_preKCNCCDP,
+  cluster = ~ pairnum^quarter
+)
+
+moderator_preKCNCCDP <- feols(
+  kalahi_spending_percap ~ treat * competition_z +
+    yolanda + log(pop07nso) + pi + land + bgytot |
+    pairnum + quarter,
+  data = dat_preKCNCCDP,
+  cluster = ~ pairnum^quarter
+)
+
+casual_preKCNCCDP <- feols(
+  gov_short_term ~ treat +
+    as.factor(female) + as.numeric(age) + pi + log(pop07nso) + land + bgytot |
+    pairnum,
+  cluster = ~ pairnum,
+  data = lfs |> filter(year < 2015)
+)
+
+modelsummary(
+  list(
+    "Kalahi spending" = base_kalahi_preKCNCCDP,
+    "Total spending" = base_total_preKCNCCDP,
+    "Spending by competition" = moderator_preKCNCCDP,
+    "Casual employment" = casual_preKCNCCDP
+  ),
+  coef_map = c(
+    "treat" = "treat",
+    "treat:competiton_z" = "treat x competition"
+  ),
+  stars = TRUE,
+  title = "Non-governmental development programs crowd-out public spending",
+  output = "kableExtra"
+) |>
+  kable_classic(latex_options = "scale_down") |>
+  kable_styling(full_width = FALSE, position = "center") |>
+  footnote(
+    general = "Spending outcomes measured in Philippine pesos (PhP) per capita.",
+    threeparttable = TRUE,
+    escape = FALSE,
+    footnote_as_chunk = TRUE
+  )
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Appendix Table A4: Moderator robustness for competition construction
+dat_mod_robust <- dat |>
+  mutate(
+    competition_raw = -vote_diff,
+    competition_rank = percent_rank(competition_raw),
+    close_10 = ifelse(vote_diff <= 0.10, 1, 0),
+    close_20 = ifelse(vote_diff <= 0.20, 1, 0)
+  )
+
+mod_z <- feols(
+  kalahi_spending_percap ~ treat * competition_z +
+    yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_mod_robust,
+  cluster = ~ province^quarter
+)
+
+mod_c <- feols(
+  kalahi_spending_percap ~ treat * competition_c +
+    yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_mod_robust,
+  cluster = ~ province^quarter
+)
+
+mod_rank <- feols(
+  kalahi_spending_percap ~ treat * competition_rank +
+    yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_mod_robust,
+  cluster = ~ province^quarter
+)
+
+mod_close10 <- feols(
+  kalahi_spending_percap ~ treat * close_10 +
+    yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_mod_robust,
+  cluster = ~ province^quarter
+)
+
+mod_close20 <- feols(
+  kalahi_spending_percap ~ treat * close_20 +
+    yolanda + border_treat + log(pop07nso) + pi + land + bgytot |
+    province + quarter,
+  data = dat_mod_robust,
+  cluster = ~ province^quarter
+)
+
+modelsummary(
+  list(
+    "z-scored competition" = mod_z,
+    "centered competition" = mod_c,
+    "rank competition" = mod_rank,
+    "close election (10pp)" = mod_close10,
+    "close election (20pp)" = mod_close20
+  ),
+  coef_map = c(
+    "treat" = "Kalahi treatment",
+    "treat:competition_z" = "Treat x competition (z)",
+    "treat:competition_c" = "Treat x competition (centered)",
+    "treat:competition_rank" = "Treat x competition (rank)",
+    "treat:close_10" = "Treat x close election (10pp)",
+    "treat:close_20" = "Treat x close election (20pp)"
+  ),
+  stars = TRUE,
+  title = "Appendix Table A4: Competition moderator robustness",
+  output = "kableExtra"
+) |>
+  kable_classic(latex_options = "scale_down") |>
+  kable_styling(full_width = FALSE, position = "center") |>
+  footnote(
+    general = "Each column uses an alternative competition construction in the interaction with treatment. All models include province and quarter fixed effects with province-by-quarter clustered standard errors.",
+    threeparttable = TRUE,
+    escape = FALSE,
+    footnote_as_chunk = TRUE
+  )
+```
+
+\clearpage
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Appendix Table A5: Pretreatment balance on baseline welfare outcomes
+welfare_balance <- read_csv("Data/derived/welfare_data.csv", show_col_types = FALSE) |>
+  distinct(lk4, hh_id_psgc, mun_psgc, treat, pretreat_infra_access, pretreat_welfare) |>
+  filter(!is.na(treat))
+
+bal_access <- feols(pretreat_infra_access ~ treat, data = welfare_balance |> filter(!is.na(pretreat_infra_access)), vcov = ~mun_psgc)
+bal_welfare <- feols(pretreat_welfare ~ treat, data = welfare_balance |> filter(!is.na(pretreat_welfare)), vcov = ~mun_psgc)
+
+balance_tab <- tibble(
+  outcome = c("Infrastructure access (overlap only)", "Overall baseline welfare"),
+  mean_treat = c(
+    mean((welfare_balance |> filter(treat == 1))$pretreat_infra_access, na.rm = TRUE),
+    mean((welfare_balance |> filter(treat == 1))$pretreat_welfare, na.rm = TRUE)
+  ),
+  mean_control = c(
+    mean((welfare_balance |> filter(treat == 0))$pretreat_infra_access, na.rm = TRUE),
+    mean((welfare_balance |> filter(treat == 0))$pretreat_welfare, na.rm = TRUE)
+  ),
+  diff = c(coef(bal_access)[["treat"]], coef(bal_welfare)[["treat"]]),
+  p = c(
+    coeftable(bal_access)["treat", "Pr(>|t|)"],
+    coeftable(bal_welfare)["treat", "Pr(>|t|)"]
+  )
+)
+
+balance_tab |>
+  kable(
+    format = "latex",
+    booktabs = TRUE,
+    digits = 4,
+    caption = "Pretreatment balance on baseline infrastructure access and welfare"
+  ) |>
+  kable_styling(font_size = 8, position = "center", latex_options = "HOLD_position")
+```
+
+\clearpage
+
+# Appendix: Welfare families and mayoral discretion
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Appendix Table A6 / Figure A6: Welfare-family moderation by mayoral discretion
+
+clean_num_local <- function(x) {
+  y <- as.numeric(x)
+  y[y < 0] <- NA_real_
+  y
+}
+
+clean_yesno_12_local <- function(x) {
+  y <- clean_num_local(x)
+  case_when(
+    y == 1 ~ 0,
+    y == 2 ~ 1,
+    TRUE ~ NA_real_
+  )
+}
+
+clean_binary01_local <- function(x) {
+  y <- clean_num_local(x)
+  case_when(
+    y == 1 ~ 1,
+    y == 0 ~ 0,
+    TRUE ~ NA_real_
+  )
+}
+
+rev_trust_local <- function(x) {
+  y <- clean_num_local(x)
+  case_when(
+    y %in% 1:5 ~ 6 - y,
+    TRUE ~ NA_real_
+  )
+}
+
+first_nonmissing_local <- function(x) {
+  y <- x[!is.na(x)]
+  if (length(y) == 0) {
+    return(NA)
+  }
+  y[1]
+}
+
+std_local <- function(x) {
+  mu <- mean(x, na.rm = TRUE)
+  sigma <- sd(x, na.rm = TRUE)
+
+  if (is.na(sigma) || sigma == 0) {
+    return(rep(NA_real_, length(x)))
+  }
+
+  (x - mu) / sigma
+}
+
+z_from_control_local <- function(x, treat) {
+  mu <- mean(x[treat == 0], na.rm = TRUE)
+  sigma <- sd(x[treat == 0], na.rm = TRUE)
+
+  if (is.na(sigma) || sigma == 0) {
+    return(rep(NA_real_, length(x)))
+  }
+
+  (x - mu) / sigma
+}
+
+make_domain_local <- function(df, vars, treat_var = "treat") {
+  out <- df
+  zvars <- c()
+
+  for (v in vars) {
+    zv <- paste0("z_", v)
+    out[[zv]] <- z_from_control_local(out[[v]], out[[treat_var]])
+    zvars <- c(zvars, zv)
+  }
+
+  out$domain_index <- rowMeans(out[, zvars], na.rm = TRUE)
+  out$domain_index[!is.finite(out$domain_index)] <- NA_real_
+  out
+}
+
+mid_extra <- read_dta(
+  "Data/KALAHI/Interim Public Use Data Package (3)/Data/Additional_Propositions_INT_A.dta"
+) |>
+  as_tibble() |>
+  group_by(lk4, hh_id_psgc) |>
+  summarise(across(everything(), first_nonmissing_local), .groups = "drop")
+
+mayoral_discretion_lookup <- dat |>
+  group_by(region, province, mun, mun_psgc, pairnum) |>
+  summarise(
+    fiscal_slack_index = first_nonmissing_local(fiscal_slack_index),
+    government_employment_share_z = first_nonmissing_local(government_employment_share_z),
+    debt_share_z = first_nonmissing_local(debt_share_z),
+    .groups = "drop"
+  ) |>
+  mutate(
+    payroll_debt_index = rowMeans(cbind(government_employment_share_z, debt_share_z), na.rm = TRUE),
+    fiscal_slack_index = std_local(fiscal_slack_index),
+    payroll_debt_index = std_local(payroll_debt_index),
+    mayoral_discretion_index = std_local(
+      rowMeans(cbind(fiscal_slack_index, payroll_debt_index), na.rm = TRUE)
+    )
+  ) |>
+  select(region, province, mun, mun_psgc, pairnum, mayoral_discretion_index)
+
+welfare_family_base <- read_csv("Data/derived/welfare_data.csv", show_col_types = FALSE) |>
+  left_join(
+    mayoral_discretion_lookup,
+    by = c("region", "province", "mun", "mun_psgc", "pairnum"),
+    relationship = "many-to-one"
+  ) |>
+  filter(!is.na(mayoral_discretion_index), !is.na(pairnum), !is.na(mun_psgc))
+
+welfare_mid <- welfare_family_base |>
+  filter(post_2013 == 0) |>
+  left_join(
+    mid_extra |>
+      select(lk4, hh_id_psgc, starts_with("de"), starts_with("sct")),
+    by = c("lk4", "hh_id_psgc"),
+    relationship = "many-to-one"
+  ) |>
+  mutate(
+    no_yolanda_hardship = clean_yesno_12_local(de6a),
+    no_other_hardship = clean_yesno_12_local(de6b),
+    sick_neighbors = clean_binary01_local(sct5_2),
+    sick_leaders = clean_binary01_local(sct5_3),
+    sick_health = clean_binary01_local(sct5o6),
+    sick_clinic = clean_binary01_local(sct5o7),
+    sick_family = clean_binary01_local(sct5o12),
+    sick_friends = clean_binary01_local(sct5o15),
+    sick_noone = 1 - clean_binary01_local(sct5o1),
+    trust_inside = rev_trust_local(sct8a),
+    trust_outside = rev_trust_local(sct8b)
+  )
+
+welfare_end <- welfare_family_base |>
+  filter(post_2013 == 1)
+
+social_cohesion_mid <- welfare_mid |>
+  make_domain_local(c("trust_inside", "trust_outside")) |>
+  filter(!is.na(domain_index), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Midline",
+    family = "Social cohesion",
+    y = domain_index,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+social_cohesion_end <- welfare_end |>
+  filter(!is.na(domain_hardship_support), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Endline",
+    family = "Social cohesion",
+    y = domain_hardship_support,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+discretionary_support_mid <- welfare_mid |>
+  make_domain_local(c("sick_neighbors", "sick_leaders", "sick_health", "sick_clinic", "sick_family", "sick_friends", "sick_noone")) |>
+  filter(!is.na(domain_index), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Midline",
+    family = "Discretionary support",
+    y = domain_index,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+discretionary_support_end <- welfare_end |>
+  filter(!is.na(domain_hardship_support), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Endline",
+    family = "Discretionary support",
+    y = domain_hardship_support,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+service_access_mid <- welfare_mid |>
+  filter(!is.na(infra_access), !is.na(pretreat_infra_access)) |>
+  transmute(
+    sample = "Midline",
+    family = "Service access",
+    y = infra_access,
+    baseline = pretreat_infra_access,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+service_access_end <- welfare_end |>
+  filter(!is.na(domain_water_access), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Endline",
+    family = "Service access",
+    y = domain_water_access,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+household_welfare_mid <- welfare_mid |>
+  filter(!is.na(no_yolanda_hardship), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Midline",
+    family = "Household welfare",
+    y = no_yolanda_hardship,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+household_welfare_end <- welfare_end |>
+  filter(!is.na(domain_household_spending), !is.na(pretreat_welfare)) |>
+  transmute(
+    sample = "Endline",
+    family = "Household welfare",
+    y = domain_household_spending,
+    baseline = pretreat_welfare,
+    province,
+    treat, mayoral_discretion_index, pop07nso, pi, land, bgytot,
+    vote_diff, dynasty_next_mayor, pairnum, mun_psgc
+  )
+
+welfare_family_dat <- bind_rows(
+  social_cohesion_mid,
+  social_cohesion_end,
+  discretionary_support_mid,
+  discretionary_support_end,
+  service_access_mid,
+  service_access_end,
+  household_welfare_mid,
+  household_welfare_end
+)
+
+family_model_specs <- list(
+  "Social cohesion" = welfare_family_dat |> filter(family == "Social cohesion"),
+  "Discretionary support" = welfare_family_dat |> filter(family == "Discretionary support"),
+  "Service access" = welfare_family_dat |> filter(family == "Service access"),
+  "Household welfare" = welfare_family_dat |> filter(family == "Household welfare")
+)
+
+family_models <- lapply(family_model_specs, \(d) {
+  feols(
+    y ~ treat * mayoral_discretion_index +
+      baseline + log(pop07nso) + pi + land + bgytot + vote_diff + dynasty_next_mayor |
+      pairnum + sample,
+    cluster = ~mun_psgc,
+    data = d
+  )
+})
+
+family_results <- bind_rows(lapply(names(family_models), function(nm) {
+  m <- family_models[[nm]]
+  ct <- coeftable(m)
+  tibble(
+    family_label = nm,
+    estimate = ct["treat:mayoral_discretion_index", "Estimate"],
+    se = ct["treat:mayoral_discretion_index", "Std. Error"],
+    p = ct["treat:mayoral_discretion_index", "Pr(>|t|)"],
+    ci_low = estimate - 1.96 * se,
+    ci_high = estimate + 1.96 * se
+  )
+}))
+
+modelsummary(
+  family_models,
+  coef_map = c(
+    "treat:mayoral_discretion_index" = "Treat x mayoral discretion"
+  ),
+  gof_map = c("nobs", "r.squared"),
+  stars = TRUE,
+  title = "Appendix Table A6: Welfare-family moderation by mayoral discretion",
+  output = "kableExtra"
+) |>
+  kable_classic(latex_options = "scale_down") |>
+  kable_styling(full_width = FALSE, position = "center") |>
+  footnote(
+    general = "Each column reports a pooled midline-endline welfare-family specification with matched-pair and wave fixed effects, municipality-clustered standard errors, baseline welfare controls, and the full set of municipal covariates.",
+    threeparttable = TRUE,
+    escape = FALSE,
+    footnote_as_chunk = TRUE
+  )
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE, fig.width=10, fig.height=6.5, out.width='100%'}
+plot_df <- family_results |>
+  arrange(estimate) |>
+  mutate(
+    family_label = factor(family_label, levels = family_label),
+    p_label = sprintf("p = %.3f", p)
+  )
+
+xmin <- min(plot_df$ci_low, na.rm = TRUE)
+xmax <- max(plot_df$ci_high, na.rm = TRUE)
+xrange <- xmax - xmin
+
+plot_df <- plot_df |>
+  mutate(p_x = xmin - 0.22 * xrange)
+
+ggplot(plot_df, aes(x = estimate, y = family_label)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_errorbarh(aes(xmin = ci_low, xmax = ci_high), height = 0.18, color = "gray35") +
+  geom_point(size = 2.6, color = "#8C2F39") +
+  geom_text(aes(x = p_x, label = p_label), hjust = 0, size = 3.2, color = "gray20") +
+  coord_cartesian(xlim = c(xmin - 0.30 * xrange, xmax + 0.05 * xrange)) +
+  labs(
+    x = "Coefficient on Treat x mayoral discretion",
+    y = NULL,
+    title = "Figure A6: Welfare-family moderation by mayoral discretion",
+    subtitle = "Pooled midline-endline estimates with 95% confidence intervals; p-values shown at left"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(hjust = 1)
+  )
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+# Appendix Table A7: Welfare-family moderation by procurement targeting
+
+proc_targeting <- read_csv("Data/derived/procurement_analysis.csv", show_col_types = FALSE) |>
+  filter(
+    classification == "Goods",
+    !is.na(brgy_vote_share),
+    !is.na(contract_amount),
+    contract_amount > 0
+  ) |>
+  group_by(mun_psgc) |>
+  summarise(
+    goods_targeting_index = weighted.mean(brgy_vote_share, w = contract_amount, na.rm = TRUE),
+    matched_goods_contracts = n(),
+    .groups = "drop"
+  ) |>
+  mutate(
+    goods_targeting_index = std_local(goods_targeting_index)
+  )
+
+welfare_family_targeting <- welfare_family_dat |>
+  left_join(proc_targeting, by = "mun_psgc") |>
+  filter(!is.na(goods_targeting_index), treat == 1)
+
+targeting_model_specs <- list(
+  "Social cohesion" = welfare_family_targeting |> filter(family == "Social cohesion"),
+  "Discretionary support" = welfare_family_targeting |> filter(family == "Discretionary support"),
+  "Service access" = welfare_family_targeting |> filter(family == "Service access"),
+  "Household welfare" = welfare_family_targeting |> filter(family == "Household welfare")
+)
+
+targeting_models <- lapply(targeting_model_specs, \(d) {
+  feols(
+    y ~ goods_targeting_index +
+      baseline + log(pop07nso) + pi + land + bgytot + vote_diff + dynasty_next_mayor |
+      province + sample,
+    cluster = ~mun_psgc,
+    data = d
+  )
+})
+
+modelsummary(
+  targeting_models,
+  coef_map = c(
+    "goods_targeting_index" = "Goods targeting index"
+  ),
+  gof_map = c("nobs", "r.squared"),
+  stars = TRUE,
+  title = "Appendix Table A7: Welfare-family moderation by goods-procurement targeting",
+  output = "kableExtra"
+) |>
+  kable_classic(latex_options = "scale_down") |>
+  kable_styling(full_width = FALSE, position = "center") |>
+  footnote(
+    general = "Columns are estimated on treated municipalities only and pool midline and endline observations with wave fixed effects. Goods-procurement targeting is the municipality-level weighted mean barangay vote share among goods contracts matched to barangays in procurement records from 2012 through 2015. Higher values indicate procurement directed toward more supportive barangays. Province fixed effects are used because municipality-level targeting is collinear with matched-pair fixed effects in the treated-only sample. Estimates should be interpreted as suggestive because targeting is not randomly assigned.",
+    threeparttable = TRUE,
+    escape = FALSE,
+    footnote_as_chunk = TRUE
+  )
+```

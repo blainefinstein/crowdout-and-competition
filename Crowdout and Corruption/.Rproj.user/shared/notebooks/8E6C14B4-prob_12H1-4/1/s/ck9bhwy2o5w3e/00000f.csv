@@ -1,5 +1,0 @@
-"0","#| message: false"
-"0","#| warning: false"
-"0","library(tidyverse)"
-"0","library(rstan)"
-"0","library(rethinking)"
