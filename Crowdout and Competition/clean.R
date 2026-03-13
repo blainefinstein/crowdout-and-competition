@@ -4,6 +4,39 @@ library(haven)
 library(sf)
 library(fuzzyjoin)
 
+script_args <- commandArgs(trailingOnly = FALSE)
+file_arg <- grep("^--file=", script_args, value = TRUE)
+script_dir <- if (length(file_arg) > 0) {
+  dirname(
+    normalizePath(
+      file.path(getwd(), str_replace_all(sub("^--file=", "", file_arg[1]), "~\\+~", " ")),
+      winslash = "/",
+      mustWork = TRUE
+    )
+  )
+} else {
+  getwd()
+}
+
+project_dir_candidates <- unique(c(
+  script_dir,
+  getwd(),
+  file.path(getwd(), "Crowdout and Competition"),
+  dirname(script_dir),
+  file.path(dirname(script_dir), "Crowdout and Competition")
+))
+
+project_dir <- purrr::detect(
+  project_dir_candidates,
+  ~ file.exists(file.path(.x, "Data/KALAHI/PHL-KC Matching Data for Sample/matching data for sample.csv"))
+)
+
+if (is.null(project_dir)) {
+  stop("Could not locate project directory containing Data/KALAHI/PHL-KC Matching Data for Sample/matching data for sample.csv")
+}
+
+setwd(project_dir)
+
 set.seed(252463)
 
 out_dir <- "Data/derived"
@@ -259,6 +292,11 @@ weighted_mean_or_na <- function(x, w) {
   weighted.mean(x, w, na.rm = TRUE)
 }
 
+to_quarter_flow <- function(x, quarter_num) {
+  lag_x <- lag(x)
+  if_else(quarter_num == 1L, x, x - lag_x)
+}
+
 matching_raw <- read_csv("Data/KALAHI/PHL-KC Matching Data for Sample/matching data for sample.csv", show_col_types = FALSE)
 interim_noncompliers <- read_dta("Data/KALAHI/Endline Public Use Data Package/Datasets/Interim Details on Full Sample 198 Sample v5.dta") |>
   transmute(pairnum, treatment, non_complier) |>
@@ -390,7 +428,7 @@ yolanda_seed <- c(
 )
 yolanda <- unique(c(yolanda_seed, matching$mun[matching$region %in% c("IV-B", "V", "VI", "VII", "VIII", "XIII")]))
 
-analysis_data <- matching |>
+spending_data <- matching |>
   select(-island) |>
   mutate(province_psgc = canonical_province(province_psgc)) |>
   ungroup() |>
@@ -467,7 +505,7 @@ election_geo <- elections_panel |>
   distinct(region_key, mun_key, province_key) |>
   mutate(in_elections = 1L)
 
-treated_audit <- analysis_data |>
+treated_audit <- spending_data |>
   filter(treat == 1) |>
   distinct(region, mun, province, region_key, province_key, mun_key) |>
   left_join(quarterly_geo, by = c("region_key", "mun_key", "province_key")) |>
@@ -489,7 +527,7 @@ phl_munis <- st_read("Data/Municities/MuniCities.shp", quiet = TRUE) |>
   filter(n() == 1) |>
   ungroup()
 
-muni_treat <- analysis_data |>
+muni_treat <- spending_data |>
   distinct(mun, treat) |>
   inner_join(phl_munis |> select(mun, geometry), by = "mun") |>
   st_as_sf()
@@ -501,7 +539,7 @@ border_df <- muni_treat |>
   mutate(border_treat = ifelse(treat == 0 & bordering_control, 1, 0)) |>
   select(mun, border_treat)
 
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   left_join(border_df, by = "mun") |>
   mutate(border_treat = replace_na(border_treat, 0))
 
@@ -514,7 +552,7 @@ term_limited <- c(
   "Dumalinao", "Tambulig", "Ipil", "Naga", "Talusan"
 )
 
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   mutate(term_limited = ifelse(mun %in% term_limited, 1, 0))
 
 dynasties <- read_excel("Data/ASoG-POLITICAL-DYNASTIES-DATASET-V2016.xlsx", sheet = "Data") |>
@@ -528,7 +566,7 @@ dynasties <- read_excel("Data/ASoG-POLITICAL-DYNASTIES-DATASET-V2016.xlsx", shee
   select(mun, first_name, last_name, fat) |>
   distinct(mun, first_name, last_name, .keep_all = TRUE)
 
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   mutate(
     last_name = str_to_upper(str_match(winner, "^([^,]+),")[, 2]),
     first_name = str_to_upper(str_match(winner, ",\\s(.*?)\\s\\(")[, 2])
@@ -557,16 +595,90 @@ historic_comp <- read_csv("Data/historic_competition.csv", show_col_types = FALS
   select(region, province, mun, comp_2010, comp_2007) |>
   distinct(region, province, mun, .keep_all = TRUE)
 
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   left_join(historic_comp, by = c("region", "province", "mun")) |>
   left_join(historic_vote_diff, by = c("region", "province", "mun"))
 
-dup_panel <- analysis_data |>
+quarterly_flow_cols <- c(
+  "general_fund",
+  "special_education_fund",
+  "total",
+  "tax_on_business",
+  "other_taxes",
+  "total_tax_revenue",
+  "regulatory_fees",
+  "service_user_charges",
+  "receipts_from_economic_enterprises",
+  "other_receipts_other_general_income",
+  "total_nontax_revenue",
+  "total_local_sources",
+  "internal_revenue_allotment",
+  "other_shares_from_national_tax_collections",
+  "interlocal_transfers",
+  "extraordinary_receipts_grants_donations_aids",
+  "total_external_sources",
+  "total_current_operating_income",
+  "general_public_services",
+  "education_culture_sports_manpower_development",
+  "health_nutrition_population_control",
+  "labor_and_employment",
+  "housing_and_community_development",
+  "social_services_and_social_welfare",
+  "total_social_services",
+  "economic_services",
+  "debt_service_interest_expense_other_charges",
+  "total_current_operating_expenditures",
+  "net_operating_income_loss_from_current_operations",
+  "proceeds_from_sale_of_assets",
+  "proceeds_from_sale_of_debt_securities_of_other_entities",
+  "collection_of_loans_receivables",
+  "total_capital_investment_receipts",
+  "acquisition_of_loans",
+  "issuance_of_bonds",
+  "total_receipts_from_loans_and_borrowings",
+  "other_nonincome_receipts",
+  "total_nonincome_receipts",
+  "purchase_construct_of_property_plant_and_equipment_assets_capital_outlay",
+  "purchase_of_debt_securities_of_other_entities_investment_outlay",
+  "grant_make_loan_to_other_entities_investment_outlay",
+  "total_capital_investment_expenditures",
+  "payment_of_loan_amortization",
+  "retirement_redemption_of_bonds_debt_securities",
+  "total_debt_service_principal_cost",
+  "other_nonoperating_expenditures",
+  "total_nonoperating_expenditures",
+  "net_increase_decrease_in_funds",
+  "less_payment_of_prior_year_s_accounts_payable",
+  "continuing_appropriation",
+  "kalahi_spending",
+  "total_spending"
+)
+
+spending_data <- spending_data |>
+  mutate(
+    quarter_num = as.integer(str_sub(quarter, 2, 2))
+  ) |>
+  arrange(lgu_id, panel_year, quarter_num) |>
+  group_by(lgu_id, panel_year) |>
+  mutate(
+    across(
+      all_of(quarterly_flow_cols),
+      ~ to_quarter_flow(.x, quarter_num)
+    )
+  ) |>
+  ungroup() |>
+  mutate(
+    kalahi_spending_percap = kalahi_spending / pop07nso,
+    total_spending_percap = total_spending / pop07nso
+  ) |>
+  select(-quarter_num)
+
+dup_panel <- spending_data |>
   count(region, province, mun, quarter) |>
   filter(n > 1)
 
 if (nrow(dup_panel) > 0) {
-  stop("analysis_data has duplicate region-province-municipality-quarter keys after cleaning.")
+  stop("spending_data has duplicate region-province-municipality-quarter keys after cleaning.")
 }
 
 pc <- read_excel("Data/peace_corps.xlsx", sheet = 2) |>
@@ -582,12 +694,12 @@ pc <- read_excel("Data/peace_corps.xlsx", sheet = 2) |>
   filter(start_year <= 2013, end_year >= 2015) |>
   distinct(municity)
 
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   mutate(pc = ifelse(mun %in% pc$municity, 1, 0))
 
 # Competition recode for interpretability:
 # higher values = more competition (smaller vote margin).
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   mutate(
     competition_c = (-vote_diff) - mean(-vote_diff, na.rm = TRUE),
     competition_z = if_else(
@@ -612,7 +724,7 @@ matching_hist <- matching |>
   select(region, mun, province_psgc, pairnum, treat, pi, bgytot, pop07nso, land) |>
   distinct(region, mun, province_psgc, .keep_all = TRUE)
 
-historic_data <- list.files("Data/Yearly Spending", full.names = TRUE) |>
+historic_spending <- list.files("Data/Yearly Spending", full.names = TRUE) |>
   keep(~ str_detect(.x, regex("by-lgu-sre-20[0-1][0-9]\\.xlsx$", ignore_case = TRUE))) |>
   map_df(process_yearly) |>
   mutate(province = canonical_province(province)) |>
@@ -630,8 +742,13 @@ historic_data <- list.files("Data/Yearly Spending", full.names = TRUE) |>
     lgu_id = str_c(region, province, mun, sep = "__")
   )
 
-write_csv(analysis_data, file.path(out_dir, "analysis_data.csv"))
-write_csv(historic_data, file.path(out_dir, "historic_data.csv"))
+write_csv(spending_data, file.path(out_dir, "spending_data.csv"))
+write_csv(historic_spending, file.path(out_dir, "historic_spending.csv"))
+
+interim_details <- read_dta(
+  "Data/KALAHI/Interim Public Use Data Package (3)/Data/Interim Details on Full 198 Sample.dta"
+) |>
+  as_tibble()
 
 analysis_match <- matching_raw |>
   rename(region = reg_psgc) |>
@@ -644,7 +761,7 @@ analysis_match <- matching_raw |>
   rename(treat = treatment) |>
   select(-treatmen) |>
   left_join(
-    analysis_data |>
+    spending_data |>
       group_by(region, mun) |>
       summarise(
         vote_share = first(na.omit(vote_share), default = NA_real_),
@@ -677,14 +794,14 @@ z_from_control <- function(x, treat) {
 
 sanitize_special_missing <- function(x) {
   x_num <- suppressWarnings(as.numeric(x))
-  if_else(x_num %in% c(-95, -96, -97, -98, -99), NA_real_, x_num)
+  if_else(x_num %in% c(-99, -98, -97, -96, -95, 95, 96, 97, 98, 99), NA_real_, x_num)
 }
 
 sanitize_acs4_cost <- function(x) {
   x_num <- suppressWarnings(as.numeric(x))
   # In KALAHI acs4_r* labels, -97 denotes walking (zero monetary cost).
   x_num <- if_else(x_num == -97, 0, x_num)
-  if_else(x_num %in% c(-95, -96, -98, -99), NA_real_, x_num)
+  if_else(x_num %in% c(-99, -98, -96, -95, 95, 96, 98, 99), NA_real_, x_num)
 }
 
 build_domain_index <- function(data, vars, treat_var = "treat") {
@@ -698,7 +815,7 @@ build_domain_index <- function(data, vars, treat_var = "treat") {
   out
 }
 
-discretion_index_by_mun <- analysis_data |>
+discretion_index_by_mun <- spending_data |>
   mutate(
     mun_psgc = as.character(mun_psgc),
     own_source_share = if_else(
@@ -1128,7 +1245,7 @@ lfs_controls_region_q <- lfs_raw |>
     .groups = "drop"
   )
 
-analysis_lfs_covars <- analysis_data |>
+analysis_lfs_covars <- spending_data |>
   transmute(
     lgu_id,
     region,
@@ -1221,7 +1338,7 @@ write_csv(lfs_data, file.path(out_dir, "lfs_data.csv"))
 write_csv(lfs_controls_region_q, file.path(out_dir, "lfs_controls_region_quarter.csv"))
 write_csv(treated_audit, file.path(out_dir, "treated_municipality_match_audit.csv"))
 
-analysis_roster <- analysis_data |>
+analysis_roster <- spending_data |>
   transmute(
     lgu_id,
     region,
@@ -1232,7 +1349,7 @@ analysis_roster <- analysis_data |>
   ) |>
   distinct()
 
-fiscal_pre <- historic_data |>
+fiscal_pre <- historic_spending |>
   filter(year < 2012) |>
   transmute(
     lgu_id,
@@ -1411,7 +1528,7 @@ discretion_cor <- discretion_indices |>
   ) |>
   cor(use = "pairwise.complete.obs")
 
-analysis_data <- analysis_data |>
+spending_data <- spending_data |>
   left_join(
     discretion_indices |>
       select(
@@ -1432,11 +1549,378 @@ message("Municipalities with <3 fiscal pre-treatment years: ", sum(discretion_in
 message("Municipalities with <3 LFS pre-treatment years: ", sum(discretion_indices$fewer_than_three_pre_years_lfs, na.rm = TRUE))
 message("Non-missing fiscal_slack_index: ", sum(!is.na(discretion_indices$fiscal_slack_index)))
 message("Non-missing structural_commitment_index: ", sum(!is.na(discretion_indices$structural_commitment_index)))
-message("Analysis merge rate by lgu_id: ", round(mean(analysis_data$lgu_id %in% discretion_indices$lgu_id) * 100, 1), "%")
+message("Analysis merge rate by lgu_id: ", round(mean(spending_data$lgu_id %in% discretion_indices$lgu_id) * 100, 1), "%")
 
 write_csv(discretion_indices, file.path(out_dir, "discretion_indices.csv"))
-write_csv(analysis_data, file.path(out_dir, "analysis_data.csv"))
-write_csv(historic_data, file.path(out_dir, "historic_data.csv"))
+write_csv(spending_data, file.path(out_dir, "spending_data.csv"))
+write_csv(historic_spending, file.path(out_dir, "historic_spending.csv"))
+
+# Final welfare-file enrichment for the manuscript and appendix welfare analyses.
+# The qmd should only read this single file, estimate models, and present results.
+first_nonmissing_welfare <- function(x) {
+  y <- x[!is.na(x)]
+  if (length(y) == 0) {
+    return(NA)
+  }
+  y[1]
+}
+
+clean_num_welfare <- function(x) {
+  y <- suppressWarnings(as.numeric(x))
+  y[y < 0 | y %in% c(95, 96, 97, 98, 99)] <- NA_real_
+  y
+}
+
+normalize_missing_welfare <- function(x) {
+  y <- suppressWarnings(as.numeric(x))
+  y[y %in% c(-999, -99, -98, -97, -96, -95, 95, 96, 97, 98, 99, 999)] <- NA_real_
+  y
+}
+
+clean_yesno_12_welfare <- function(x) {
+  y <- clean_num_welfare(x)
+  case_when(
+    y == 1 ~ 0,
+    y == 2 ~ 1,
+    TRUE ~ NA_real_
+  )
+}
+
+clean_binary01_welfare <- function(x) {
+  y <- clean_num_welfare(x)
+  case_when(
+    y == 1 ~ 1,
+    y == 0 ~ 0,
+    TRUE ~ NA_real_
+  )
+}
+
+clean_binary_from_checkbox_welfare <- function(x) {
+  y <- suppressWarnings(as.numeric(x))
+  case_when(
+    y == 1 ~ 1,
+    !is.na(y) ~ 0,
+    TRUE ~ 0
+  )
+}
+
+clean_yes_binary_welfare <- function(x) {
+  y <- clean_num_welfare(x)
+  case_when(
+    y >= 1 & y < 2 ~ 1,
+    y >= 2 ~ 0,
+    TRUE ~ NA_real_
+  )
+}
+
+reverse_likert_welfare <- function(x, max_scale) {
+  y <- clean_num_welfare(x)
+  case_when(
+    y >= 1 & y <= max_scale ~ (max_scale + 1) - y,
+    TRUE ~ NA_real_
+  )
+}
+
+rev_trust_welfare <- function(x) {
+  y <- clean_num_welfare(x)
+  case_when(
+    y %in% 1:5 ~ 6 - y,
+    TRUE ~ NA_real_
+  )
+}
+
+any_selected_welfare <- function(df, vars) {
+  vals <- df |>
+    mutate(across(all_of(vars), clean_binary_from_checkbox_welfare)) |>
+    select(all_of(vars))
+
+  if_else(rowSums(vals, na.rm = TRUE) > 0, 1, 0)
+}
+
+build_family_index_welfare <- function(data, vars, treat_var = "treat") {
+  z_list <- lapply(vars, function(v) z_from_control(data[[v]], data[[treat_var]]))
+  names(z_list) <- paste0("z__", vars)
+  z_mat <- as_tibble(z_list)
+  min_nonmissing <- if (length(vars) <= 2) 1 else 2
+
+  out <- rowMeans(z_mat, na.rm = TRUE)
+  out[rowSums(!is.na(z_mat)) < min_nonmissing] <- NA_real_
+  out[!is.finite(out)] <- NA_real_
+  out
+}
+
+mayoral_discretion_lookup <- discretion_indices |>
+  mutate(
+    mun_psgc = as.character(mun_psgc),
+    payroll_debt_index_raw = rowMeans(
+      cbind(government_employment_share_z, debt_share_z),
+      na.rm = TRUE
+    ),
+    payroll_debt_index = zscore_vec(payroll_debt_index_raw),
+    fiscal_slack_index = zscore_vec(fiscal_slack_index),
+    mayoral_discretion_index = zscore_vec(
+      rowMeans(cbind(fiscal_slack_index, payroll_debt_index), na.rm = TRUE)
+    )
+  ) |>
+  select(
+    region,
+    province,
+    mun,
+    mun_psgc,
+    pairnum,
+    fiscal_slack_index,
+    structural_commitment_index,
+    government_employment_share_z,
+    debt_share_z,
+    payroll_debt_index,
+    mayoral_discretion_index
+  )
+
+mid_extra <- read_dta(
+  "Data/KALAHI/Interim Public Use Data Package (3)/Data/Additional_Propositions_INT_A.dta"
+) |>
+  as_tibble() |>
+  group_by(lk4, hh_id_psgc) |>
+  summarise(across(everything(), first_nonmissing_welfare), .groups = "drop")
+
+welfare_end_lookup <- read_dta(
+  "Data/KALAHI/Endline Public Use Data Package/Datasets/01 hh identification details (wide) (22july16).dta"
+) |>
+  as_tibble() |>
+  group_by(lk4) |>
+  mutate(hh_order = row_number()) |>
+  ungroup() |>
+  select(lk4, hh_order, hh_id_psgc)
+
+end_participation <- read_dta(
+  "Data/KALAHI/Endline Public Use Data Package/Datasets/3rdRnd_Hypothesis_3a_HH_AnalysisVarsB.dta"
+) |>
+  as_tibble() |>
+  group_by(lk4) |>
+  mutate(hh_order = row_number()) |>
+  ungroup() |>
+  left_join(welfare_end_lookup, by = c("lk4", "hh_order"), relationship = "many-to-one") |>
+  select(lk4, hh_id_psgc, ge2_muncouncil, ge2_metwith, ge2_filed)
+
+end_trust <- read_dta(
+  "Data/KALAHI/Endline Public Use Data Package/Datasets/3rdRnd_Hypothesis_3c_HH_AnalysisVarsA.dta"
+) |>
+  as_tibble() |>
+  select(lk4, hh_id_psgc, cp13, pd14, pd15, sct7)
+
+end_decision <- read_dta(
+  "Data/KALAHI/Endline Public Use Data Package/Datasets/3rdRnd_Hypothesis_3b_AnalysisVarsA.dta"
+) |>
+  as_tibble() |>
+  select(lk4, hh_id_psgc, pd11)
+
+end_hardship <- read_dta(
+  "Data/KALAHI/Endline Public Use Data Package/Datasets/3rdRnd_H8_Hardship_HH_AnalysisVarsB.dta"
+) |>
+  as_tibble() |>
+  select(lk4, hh_id_psgc, starts_with("de4_"), starts_with("de6_"))
+
+end_dosage <- read_dta(
+  "Data/KALAHI/Endline Public Use Data Package/Datasets/SP Dosage.dta"
+) |>
+  as_tibble() |>
+  select(lk4, share_cycles_complete)
+
+welfare_family_base <- welfare_data |>
+  mutate(mun_psgc = as.character(mun_psgc)) |>
+  left_join(
+    mayoral_discretion_lookup,
+    by = c("region", "province", "mun", "mun_psgc", "pairnum"),
+    relationship = "many-to-one"
+  )
+
+welfare_mid_enriched <- welfare_family_base |>
+  filter(post_2013 == 0) |>
+  left_join(
+    mid_extra |>
+      select(lk4, hh_id_psgc, starts_with("de"), starts_with("sct"), starts_with("gv")),
+    by = c("lk4", "hh_id_psgc"),
+    relationship = "many-to-one"
+  ) |>
+  mutate(
+    no_yolanda_hardship = clean_yesno_12_welfare(de6a),
+    no_other_hardship = clean_yesno_12_welfare(de6b),
+    official_source_yolanda = if_else(
+      rowSums(across(any_of(c("de7ao1", "de7ao8", "de7ao11", "de7ao14")), clean_binary01_welfare), na.rm = TRUE) > 0,
+      1,
+      0
+    ),
+    official_source_other = clean_binary01_welfare(de7bo1),
+    support_received_yolanda = if_else(
+      rowSums(across(any_of(c("de9a1", "de9a2", "de9a3")), clean_binary01_welfare), na.rm = TRUE) > 0,
+      1,
+      0
+    ),
+    support_received_other = if_else(
+      rowSums(across(any_of(c("de9b1", "de9b2", "de9b3")), clean_binary01_welfare), na.rm = TRUE) > 0,
+      1,
+      0
+    ),
+    trust_inside = rev_trust_welfare(sct8a),
+    trust_outside = rev_trust_welfare(sct8b),
+    mayor_good = reverse_likert_welfare(gv1_2, 4),
+    mayor_clean = case_when(
+      clean_num_welfare(gv2_2) == 1 ~ 0,
+      clean_num_welfare(gv2_2) == 2 ~ 1,
+      TRUE ~ NA_real_
+    ),
+    mayor_honest = reverse_likert_welfare(gv3_2, 4),
+    informal_family_hh = clean_binary01_welfare(sct5_1),
+    informal_neighbors = clean_binary01_welfare(sct5_2),
+    informal_self = clean_binary01_welfare(sct5o4),
+    informal_welloff = clean_binary01_welfare(sct5o9),
+    informal_volunteers = clean_binary01_welfare(sct5o10),
+    informal_relatives = clean_binary01_welfare(sct5o12),
+    informal_anyone = clean_binary01_welfare(sct5o14),
+    informal_friends = clean_binary01_welfare(sct5o15),
+    informal_priests = clean_binary01_welfare(sct5o16),
+    informal_noone = 1 - clean_binary01_welfare(sct5o1),
+    travel_cost_dry = -rowSums(across(matches("^acs4_d[0-9]+$"), sanitize_special_missing), na.rm = TRUE),
+    travel_cost_wet = -rowSums(across(matches("^acs4_r[0-9]+$"), sanitize_special_missing), na.rm = TRUE),
+    travel_cost = rowMeans(cbind(travel_cost_dry, travel_cost_wet), na.rm = TRUE),
+    travel_cost = if_else(is.nan(travel_cost), NA_real_, travel_cost)
+  )
+
+welfare_mid_enriched$family_service_access <- build_family_index_welfare(
+  welfare_mid_enriched,
+  c("dist_pub_services", "travel_time", "travel_cost")
+)
+welfare_mid_enriched$family_economic_welfare <- build_family_index_welfare(
+  welfare_mid_enriched,
+  c("no_yolanda_hardship", "no_other_hardship")
+)
+welfare_mid_enriched$family_official_assistance <- build_family_index_welfare(
+  welfare_mid_enriched,
+  c("official_source_yolanda", "official_source_other", "support_received_yolanda", "support_received_other")
+)
+welfare_mid_enriched$family_political_participation_trust <- build_family_index_welfare(
+  welfare_mid_enriched,
+  c("trust_inside", "trust_outside", "mayor_good", "mayor_clean", "mayor_honest")
+)
+welfare_mid_enriched$family_informal_support <- build_family_index_welfare(
+  welfare_mid_enriched,
+  c(
+    "informal_family_hh",
+    "informal_neighbors",
+    "informal_self",
+    "informal_welloff",
+    "informal_volunteers",
+    "informal_relatives",
+    "informal_anyone",
+    "informal_friends",
+    "informal_priests",
+    "informal_noone"
+  )
+)
+
+welfare_end_enriched <- welfare_family_base |>
+  filter(post_2013 == 1) |>
+  left_join(end_participation, by = c("lk4", "hh_id_psgc"), relationship = "many-to-one") |>
+  left_join(end_trust, by = c("lk4", "hh_id_psgc"), relationship = "many-to-one") |>
+  left_join(end_decision, by = c("lk4", "hh_id_psgc"), relationship = "many-to-one") |>
+  left_join(end_hardship, by = c("lk4", "hh_id_psgc"), relationship = "many-to-one") |>
+  left_join(end_dosage, by = "lk4", relationship = "many-to-one") |>
+  mutate(
+    asked_lgu_any = any_selected_welfare(cur_data(), c(
+      "de4_death_helpLguOff", "de4_illness_helpLguOff", "de4_jobless_helpLguOff",
+      "de4_calamity_helpLguOff", "de4_noharvest_helpLguOff", "de4_vandal_helpLguOff"
+    )),
+    asked_congress_any = any_selected_welfare(cur_data(), c(
+      "de4_death_helpCongress", "de4_illness_helpCongress", "de4_jobless_helpCongress",
+      "de4_calamity_helpCongress", "de4_noharvest_helpCongress", "de4_vandal_helpCongress"
+    )),
+    received_cash_any = any_selected_welfare(cur_data(), c(
+      "de6_death_financeAsst", "de6_illness_financeAsst", "de6_jobless_financeAsst",
+      "de6_calamity_financeAsst", "de6_noharvest_financeAsst", "de6_vandal_financeAsst"
+    )),
+    received_inkind_any = any_selected_welfare(cur_data(), c(
+      "de6_death_nonFinAsst", "de6_illness_nonFinAsst", "de6_jobless_nonFinAsst",
+      "de6_calamity_nonFinAsst", "de6_noharvest_nonFinAsst", "de6_vandal_nonFinAsst"
+    )),
+    asked_family_any = any_selected_welfare(cur_data(), c(
+      "de4_death_helpFamily", "de4_illness_helpFamily", "de4_jobless_helpFamily",
+      "de4_calamity_helpFamily", "de4_noharvest_helpFamily", "de4_vandal_helpFamily"
+    )),
+    asked_friend_any = any_selected_welfare(cur_data(), c(
+      "de4_death_helpFriend", "de4_illness_helpFriend", "de4_jobless_helpFriend",
+      "de4_calamity_helpFriend", "de4_noharvest_helpFriend", "de4_vandal_helpFriend"
+    )),
+    asked_commleader_any = any_selected_welfare(cur_data(), c(
+      "de4_death_helpCommLeader", "de4_illness_helpCommLeader", "de4_jobless_helpCommLeader",
+      "de4_calamity_helpCommLeader", "de4_noharvest_helpCommLeader", "de4_vandal_helpCommLeader"
+    )),
+    help_none_any = any_selected_welfare(cur_data(), c(
+      "de4_death_helpNone", "de4_illness_helpNone", "de4_jobless_helpNone",
+      "de4_calamity_helpNone", "de4_noharvest_helpNone", "de4_vandal_helpNone"
+    )),
+    outside_help_not_needed = 1 - help_none_any,
+    collective_confidence = reverse_likert_welfare(cp13, 4),
+    assembly_comfort = reverse_likert_welfare(pd14, 4),
+    barangay_voice = reverse_likert_welfare(pd15, 4),
+    barangay_impact = reverse_likert_welfare(sct7, 4),
+    assembly_not_dominated = case_when(
+      clean_num_welfare(pd11) == 1 ~ 0,
+      clean_num_welfare(pd11) == 2 ~ 1,
+      TRUE ~ NA_real_
+    ),
+    attended_muncouncil = clean_yes_binary_welfare(ge2_muncouncil),
+    contacted_politician = clean_yes_binary_welfare(ge2_metwith),
+    filed_complaint = clean_yes_binary_welfare(ge2_filed)
+  )
+
+welfare_end_enriched$family_service_access <- build_family_index_welfare(
+  welfare_end_enriched,
+  c("domain_infrastructure", "domain_water_access")
+)
+welfare_end_enriched$family_economic_welfare <- build_family_index_welfare(
+  welfare_end_enriched,
+  c("domain_household_spending", "domain_labor_income")
+)
+welfare_end_enriched$family_official_assistance <- build_family_index_welfare(
+  welfare_end_enriched,
+  c("asked_lgu_any", "asked_congress_any", "received_cash_any", "received_inkind_any")
+)
+welfare_end_enriched$family_political_participation_trust <- build_family_index_welfare(
+  welfare_end_enriched,
+  c(
+    "collective_confidence",
+    "assembly_comfort",
+    "barangay_voice",
+    "barangay_impact",
+    "attended_muncouncil",
+    "contacted_politician",
+    "filed_complaint",
+    "assembly_not_dominated"
+  )
+)
+welfare_end_enriched$family_informal_support <- build_family_index_welfare(
+  welfare_end_enriched,
+  c("asked_family_any", "asked_friend_any", "asked_commleader_any", "outside_help_not_needed")
+)
+
+welfare_data <- bind_rows(welfare_mid_enriched, welfare_end_enriched) |>
+  mutate(
+    family_baseline_service_access = pretreat_infra_access,
+    family_baseline_economic_welfare = pretreat_welfare,
+    family_baseline_official_assistance = pretreat_welfare,
+    family_baseline_political_participation_trust = pretreat_welfare,
+    family_baseline_informal_support = pretreat_welfare
+  ) |>
+  mutate(
+    across(
+      matches(
+        "^(acs|ws|de|sct|gv|cp|pd|ge|travel_cost|dist_pub_services|travel_time|no_yolanda_|no_other_|official_|support_|asked_|received_|trust_|mayor_|informal_|collective_|assembly_|barangay_|attended_|contacted_|filed_|outside_help_|help_none_|domain_|overall_welfare_index|family_)"
+      ),
+      normalize_missing_welfare
+    )
+  )
+
+write_csv(welfare_data, file.path(out_dir, "welfare_data.csv"))
 
 canonical_region_match <- function(x) {
   y <- x |>
@@ -1711,7 +2195,7 @@ procurement_analysis_matched <- contract_counts_full |>
   ) |>
   arrange(mun_psgc, year)
 
-proc_controls_muny <- analysis_data |>
+proc_controls_muny <- spending_data |>
   mutate(
     mun_psgc = str_pad(mun_psgc, width = 6, side = "left", pad = "0"),
     year = as.integer(panel_year),
@@ -1803,11 +2287,11 @@ match_diag <- tibble(
     "IE municipalities with no procurement match (2012-2015)"
   ),
   n = c(
-    sum(is.na(analysis_data$vote_diff)),
-    sum(is.na(analysis_data$kalahi_spending_percap)),
-    sum(is.na(analysis_data$border_treat)),
+    sum(is.na(spending_data$vote_diff)),
+    sum(is.na(spending_data$kalahi_spending_percap)),
+    sum(is.na(spending_data$border_treat)),
     sum(!treated_audit$one_to_one_both),
-    analysis_data |> filter(treat == 1) |> summarise(n = sum(is.na(vote_diff))) |> pull(n),
+    spending_data |> filter(treat == 1) |> summarise(n = sum(is.na(vote_diff))) |> pull(n),
     nrow(unmatched_ie_procurement)
   )
 )
